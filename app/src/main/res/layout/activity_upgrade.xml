@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ericbt.musicplayer.activities.UpgradeActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Upgrade to the full version of EBT Music Player."
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Once you upgrade, you will be able to play music immediately, without the 15 second wait."
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Your upgrade will remain in effect for as long as you keep using EBT Music Player."
+            android:layout_marginTop="10dp"
+            >
+        </TextView>
+
+        <Button
+            android:id="@+id/upgrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Upgrade" >
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/DarkBlue"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/selected_item_indicator"
+            style="@style/ListImage"
+            android:contentDescription="currently playing track"
+            />
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:layout_weight="1"
+            style="@style/ListText"
+            >
+        </TextView>
+
+        <ImageView
+            android:src="@drawable/info"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/info"
+            style="@style/ListImage"
+            android:contentDescription="display track metadata"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/White"
+        android:foreground="@color/White"
+        >
+    </View>
+
+</LinearLayout>

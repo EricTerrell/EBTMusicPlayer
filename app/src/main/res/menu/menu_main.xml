@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ericbt.musicplayer.activities.MainActivity">
+    <item
+        android:id="@+id/scan"
+        android:title="@string/scan"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/recentlyPlayed"
+        android:title="@string/recently_played"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom|withText"
+        />
+    <item
+        android:id="@+id/about"
+        android:title="@string/about"
+        app:showAsAction="ifRoom|withText"
+        />
+</menu>

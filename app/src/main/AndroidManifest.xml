@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ericbt.musicplayer">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppBaseTheme"
+        android:requestLegacyExternalStorage="true">
+
+        <service
+            android:name=".services.music_player_service.MusicPlayerService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.scanner_service.ScannerService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".broadcast_receivers.MediaButtonBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!--
+        https://stackoverflow.com/questions/16126511/app-completely-restarting-when-launched-by-icon-press-in-launcher
+        -->
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:alwaysRetainTaskState="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.ScanActivity"
+            android:label="@string/title_activity_scan"
+            android:launchMode="singleTop"
+            android:taskAffinity="com.ericbt.scan" />
+
+        <activity
+            android:name=".activities.play_activity.PlayActivity"
+            android:label="@string/title_activity_play"
+            android:launchMode="singleTop" />
+        <activity android:name=".activities.SettingsActivity" />
+
+        <activity
+            android:name=".activities.FolderPickerActivity"
+            android:label="@string/title_activity_folder_picker" />
+
+        <activity
+            android:name=".activities.SpecifyFoldersActivity"
+            android:label="@string/title_activity_specify_folders" />
+
+        <activity
+            android:name=".activities.SearchActivity"
+            android:label="@string/title_activity_search" />
+
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/title_activity_about" />
+
+        <activity
+            android:name=".activities.LicenseTermsActivity"
+            android:label="@string/title_activity_license_terms" />
+
+        <activity
+            android:name=".activities.MediaFileMetadataActivity"
+            android:label="@string/title_activity_media_file_metadata" />
+
+        <activity
+            android:name=".activities.NagScreenActivity"
+            android:label="@string/title_activity_nag_screen" />
+
+        <activity
+            android:name=".activities.UpgradeActivity"
+            android:label="@string/title_activity_upgrade" />
+
+        <activity
+            android:name=".activities.PlayTipsActivity"
+            android:label="@string/title_activity_play_tips" />
+
+        <activity
+            android:name=".activities.FilterActivity"
+            android:label="@string/title_activity_filter" />
+
+        <activity
+            android:name=".activities.RecentlyPlayedActivity"
+            android:label="@string/title_activity_recently_played" />
+
+    </application>
+
+</manifest>

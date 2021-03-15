@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:title="Scanning for Music Files">
+        <com.ericbt.musicplayer.ScanFoldersPreference
+            android:title="Specify Folders to Scan"
+            >
+
+        </com.ericbt.musicplayer.ScanFoldersPreference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Tabs">
+
+        <CheckBoxPreference
+            android:title="Playlists Tab"
+            android:defaultValue="true"
+            android:key="playlists_tab"
+            />
+
+        <CheckBoxPreference
+            android:title="Albums Tab"
+            android:defaultValue="true"
+            android:key="albums_tab"
+            />
+
+        <CheckBoxPreference
+            android:title="Tracks Tab"
+            android:defaultValue="true"
+            android:key="tracks_tab"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Scrolling">
+
+        <ListPreference
+            android:title="Scroll Prefix Length"
+            android:defaultValue="3"
+            android:key="scroll_prefix_length"
+            android:entries="@array/scroll_prefix_length_strings"
+            android:entryValues="@array/scroll_prefix_length_strings"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Wired Headset"
+        >
+
+        <CheckBoxPreference
+            android:title="Play on Connect"
+            android:defaultValue="true"
+            android:key="headphone_play_on_connect" />
+
+        <CheckBoxPreference
+            android:title="Pause on Disconnect"
+            android:defaultValue="true"
+            android:key="headphone_pause_on_disconnect" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Bluetooth"
+        >
+
+        <CheckBoxPreference
+            android:title="Play on Connect"
+            android:defaultValue="true"
+            android:key="bluetooth_play_on_connect" />
+
+        <CheckBoxPreference
+            android:title="Pause on Disconnect"
+            android:defaultValue="true"
+            android:key="bluetooth_pause_on_disconnect" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Logging">
+
+        <CheckBoxPreference
+            android:title="Exception Logging"
+            android:defaultValue="false"
+            android:key="log_exceptions_key"
+            />
+
+        <CheckBoxPreference
+            android:title="Full Logging (slow)"
+            android:defaultValue="false"
+            android:key="full_logging_key"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Database">
+
+        <CheckBoxPreference
+            android:title="Copy DB to Ext. Files Folder"
+            android:defaultValue="false"
+            android:key="copy_database_key"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -18,8 +18,8 @@ Key Features:
 * Search by music file metadata
 * Minimal battery use
 * Minimal lag when navigating huge media collections
-* Filter by genre, artist, album artist, compilation, composer, or year.
-* Plays offline music files. No internet connection required.
+* Filter by genre, artist, album artist, compilation, composer, or year
+* Plays offline music files. No internet connection required
 * No ads!
 
 # Copyright
@@ -28,17 +28,17 @@ EBT Music Player &#169; Copyright 2021, [`Eric Bergman-Terrell`](https://www.eri
 
 # Screenshots
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_albums.png "Albums")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_albums.png "Albums")
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_about.png "About")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_about.png "About")
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_lockscreen.png "Lockscreen")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_lockscreen.png "Lockscreen")
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_play.png "Play")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_play.png "Play")
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_search.png "Search")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_search.png "Search")
 
-![`EBT Music Player Screenshot`](https://ericbt.com/uploaded_images/ebt_music_player_settings.png "Settings")
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_settings.png "Settings")
 
 # Links
 

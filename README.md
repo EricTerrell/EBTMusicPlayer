@@ -30,6 +30,8 @@ EBT Music Player &#169; Copyright 2021, [`Eric Bergman-Terrell`](https://www.eri
 
 ![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_albums.png "Albums")
 
+![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_playlists.png "Playlists")
+
 ![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_about.png "About")
 
 ![`EBT Music Player Screenshot`](https://ericbt.com/artwork/ebt_music_player/ebt_music_player_lockscreen.png "Lockscreen")

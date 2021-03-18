@@ -34,8 +34,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.IBinder;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
@@ -835,11 +833,11 @@ public class PlayActivity extends Activity implements PlaybackController {
                     }
                 }
 
-                MediaSessionCompat mediaSession = new MediaSessionCompat(getApplicationContext(), "tag");
+                final MediaSession mediaSession = new MediaSession(getApplicationContext(), "tag");
                 mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
                 mediaSession.setActive(true);
 
-                PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder();
+                final PlaybackState.Builder stateBuilder = new PlaybackState.Builder();
 
                 mediaSession.setPlaybackState(stateBuilder.build());
                 stateBuilder.setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 0.0f);

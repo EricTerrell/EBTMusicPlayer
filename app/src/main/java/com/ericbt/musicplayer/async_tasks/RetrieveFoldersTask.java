@@ -62,7 +62,7 @@ public class RetrieveFoldersTask implements Runnable
         return result;
     }
 
-    private class StringComparitor implements Comparator<String> {
+    private static class StringComparitor implements Comparator<String> {
         private Collator collator = Collator.getInstance();
 
         @Override

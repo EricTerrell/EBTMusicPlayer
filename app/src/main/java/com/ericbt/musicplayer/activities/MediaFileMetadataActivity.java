@@ -40,7 +40,7 @@ public class MediaFileMetadataActivity extends Activity {
     public static final String METADATA_BUNDLE = "METADATA_BUNDLE";
     private static final int PREFIX_LENGTH = 2;
 
-    private class NameValuePair {
+    private static class NameValuePair {
         private String name;
 
         private String value;

@@ -27,7 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
@@ -77,7 +77,7 @@ public class ScannerService extends BaseService {
         createNotificationChannel("Scanning");
 
         final Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setVisibility(VISIBILITY_PUBLIC)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(StringLiterals.APP_NAME)
                 .setContentText(message)

@@ -29,9 +29,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
+import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Binder;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
+
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -60,7 +62,7 @@ public class MusicPlayerService extends BaseService {
 
     private final static String PLAYBACK = "Playback";
 
-    private MediaSessionCompat mediaSession;
+    private MediaSession mediaSession;
 
     private MediaPlaybackData mediaPlaybackData;
 
@@ -87,7 +89,7 @@ public class MusicPlayerService extends BaseService {
         startForeground(NOTIFICATION_ID, createDefaultNotification());
     }
 
-    public void startForeground(MediaSessionCompat mediaSession, Track track, Intent intent) {
+    public void startForeground(MediaSession mediaSession, Track track, Intent intent) {
         logger.log(String.format("MusicPlayerService.startForeground %s", track.getTitle()));
 
         this.mediaSession = mediaSession;
@@ -154,7 +156,7 @@ public class MusicPlayerService extends BaseService {
 
         final Notification notification = new NotificationCompat
                 .Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setVisibility(VISIBILITY_PUBLIC)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
@@ -172,7 +174,7 @@ public class MusicPlayerService extends BaseService {
 
         final Notification notification = new NotificationCompat
                 .Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setVisibility(VISIBILITY_PUBLIC)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(track.getAlbum())
                 .setContentText(track.getTitle())
@@ -180,8 +182,8 @@ public class MusicPlayerService extends BaseService {
                 .addAction(generateAction(R.drawable.lock_screen_previous, getString(R.string.previous), ACTION_PREVIOUS))
                 .addAction(generateAction(R.drawable.lock_screen_pause, getString(R.string.pause), ACTION_PAUSE))
                 .addAction(generateAction(R.drawable.lock_screen_next, getString(R.string.next), ACTION_NEXT))
-                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSession.getSessionToken())
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setMediaSession(MediaSessionCompat.Token.fromToken(mediaSession.getSessionToken()))
                         .setShowActionsInCompactView(0, 1, 2)
                 ).build();
 

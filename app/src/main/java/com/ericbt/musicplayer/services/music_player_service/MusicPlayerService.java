@@ -34,6 +34,7 @@ import android.net.Uri;
 import android.os.Binder;
 import androidx.core.app.NotificationCompat;
 
+import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -172,6 +173,18 @@ public class MusicPlayerService extends BaseService {
 
         createNotificationChannel(PLAYBACK);
 
+        return createNotification(pendingIntent, track);
+    }
+
+    private Notification createNotification(PendingIntent pendingIntent, Track track) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            return createLegacyNotification(pendingIntent, track);
+        } else {
+            return createNewNotification(pendingIntent, track);
+        }
+    }
+
+    private Notification createLegacyNotification(PendingIntent pendingIntent, Track track) {
         final Notification notification = new NotificationCompat
                 .Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -186,6 +199,26 @@ public class MusicPlayerService extends BaseService {
                         .setMediaSession(MediaSessionCompat.Token.fromToken(mediaSession.getSessionToken()))
                         .setShowActionsInCompactView(0, 1, 2)
                 ).build();
+
+        notification.flags |= FOREGROUND_FLAGS;
+
+        return notification;
+    }
+
+    // TODO: Trying to get the media player notification UI to work. Until then, display a
+    // minimal UI that at least brings up the play activity.
+    //
+    // https://android-developers.googleblog.com/2020/08/playing-nicely-with-media-controls.html
+    private Notification createNewNotification(PendingIntent pendingIntent, Track track) {
+        final String message = String.format("%s: %s", track.getAlbum(), track.getTitle());
+
+        final Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(StringLiterals.APP_NAME)
+                .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .build();
 
         notification.flags |= FOREGROUND_FLAGS;
 

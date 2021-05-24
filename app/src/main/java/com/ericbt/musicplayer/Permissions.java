@@ -48,15 +48,21 @@ public class Permissions {
         }
     }
 
-    public static void requestReadExternalStoragePermission(Activity activity) {
+    private static void requestReadExternalStoragePermission(Activity activity) {
         requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, PERMISSION_READ_EXTERNAL_STORAGE, activity);
     }
 
-    public static void requestBluetoothPermission(Activity activity) {
+    private static void requestBluetoothPermission(Activity activity) {
         requestPermission(Manifest.permission.BLUETOOTH, PERMISSION_BLUETOOTH, activity);
     }
 
-    public static void requestPhoneStatePermission(Activity activity) {
+    private static void requestPhoneStatePermission(Activity activity) {
         requestPermission(Manifest.permission.READ_PHONE_STATE, PERMISSION_PHONE_STATE, activity);
+    }
+
+    public static void requestPermissions(Activity activity) {
+        requestReadExternalStoragePermission(activity);
+        requestBluetoothPermission(activity);
+        requestPhoneStatePermission(activity);
     }
 }

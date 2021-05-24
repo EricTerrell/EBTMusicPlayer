@@ -25,8 +25,11 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Preferences {
 	private static final String SCAN_FOLDERS_KEY             = "SCAN_FOLDERS_KEY";
@@ -37,8 +40,16 @@ public class Preferences {
 	private static final String CURRENT_TAB_KEY              = "CURRENT_TAB_KEY";
     private static final String FIRST_VISIBLE_ITEM_KEY       = "FIRST_VISIBLE_ITEM_KEY";
 
-	public static Set<String> getDefaultScanFolders() {
-		Set<String> results = new HashSet<>();
+	private static final Pattern SDCARD_PATH_REGEX = Pattern.compile("/storage/\\S\\S\\S\\S-\\S\\S\\S\\S/");
+
+	public static Set<String> getDefaultScanFolders(Context context) {
+		final Set<String> results = new HashSet<>();
+
+		final String sdCardPath = getSDCardPath(context);
+
+		if (sdCardPath != null) {
+			results.add(sdCardPath);
+		}
 
 		results.add(Environment.getExternalStorageDirectory().getAbsolutePath());
 		results.add(Environment.getDataDirectory().getAbsolutePath());
@@ -52,7 +63,7 @@ public class Preferences {
 			results.add(topLevelStorageFolderName);
 		}
 
-		String [] folderNames = new String[] {
+		final String [] folderNames = new String[] {
 				Environment.DIRECTORY_DOCUMENTS,
 				Environment.DIRECTORY_MUSIC,
 				Environment.DIRECTORY_PODCASTS,
@@ -65,11 +76,25 @@ public class Preferences {
 				Environment.DIRECTORY_RINGTONES
 		};
 
-		for (String folderName : folderNames) {
+		for (final String folderName : folderNames) {
 			results.add(Environment.getExternalStoragePublicDirectory(folderName).toString());
 		}
 
 		return results;
+	}
+
+	private static String getSDCardPath(Context context) {
+		String path = null;
+
+		for (File mediaDir : context.getExternalMediaDirs()) {
+			final Matcher matcher = SDCARD_PATH_REGEX.matcher(mediaDir.getAbsolutePath());
+
+			if (matcher.find()) {
+				path = matcher.group(0);
+			}
+		}
+
+		return path;
 	}
 
 	private static String getRootExternalStorageFolder() {

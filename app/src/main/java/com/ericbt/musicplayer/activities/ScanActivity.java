@@ -37,7 +37,6 @@ import android.widget.TextView;
 
 import com.ericbt.musicplayer.StringLiterals;
 import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
-import com.ericbt.musicplayer.Permissions;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.services.scanner_service.ScannerService;
 import com.ericbt.musicplayer.utils.DebugUtils;
@@ -132,8 +131,6 @@ public class ScanActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        Permissions.requestReadExternalStoragePermission(this);
 
         scanBroadcastReceiver = new CustomBroadcastReceiver() {
             @Override

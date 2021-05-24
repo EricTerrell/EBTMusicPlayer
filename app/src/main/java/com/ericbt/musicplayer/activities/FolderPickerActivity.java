@@ -29,7 +29,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ericbt.musicplayer.Permissions;
 import com.ericbt.musicplayer.Preferences;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
@@ -116,13 +115,6 @@ public class FolderPickerActivity extends Activity {
         });
 
         update(new File(currentFolder.getText().toString()));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Permissions.requestReadExternalStoragePermission(this);
     }
 
     private void update(File folder) {

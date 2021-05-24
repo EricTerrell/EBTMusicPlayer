@@ -35,6 +35,7 @@ import android.widget.ListView;
 import android.widget.TabHost;
 
 import com.ericbt.musicplayer.CustomUncaughtExceptionHandler;
+import com.ericbt.musicplayer.Permissions;
 import com.ericbt.musicplayer.Preferences;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
@@ -143,7 +144,7 @@ public class MainActivity extends Activity {
             };
 
             if (Preferences.getScanFolderPaths(this).size() == 0) {
-                Preferences.putScanFolderPaths(this, Preferences.getDefaultScanFolders());
+                Preferences.putScanFolderPaths(this, Preferences.getDefaultScanFolders(this));
             }
 
             upgrade = (Button) findViewById(R.id.upgrade);
@@ -329,6 +330,8 @@ public class MainActivity extends Activity {
 
             finish();
         }
+
+        Permissions.requestPermissions(this);
     }
 
     @Override

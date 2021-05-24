@@ -20,8 +20,6 @@
 
 package com.ericbt.musicplayer.activities.play_activity;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +48,6 @@ import com.ericbt.musicplayer.activities.NagScreenActivity;
 import com.ericbt.musicplayer.change_processors.AudioFocusChangeProcessor;
 import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
 import com.ericbt.musicplayer.CustomPhoneStateListener;
-import com.ericbt.musicplayer.Permissions;
 import com.ericbt.musicplayer.PlaybackController;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
@@ -78,9 +75,6 @@ import com.ericbt.musicplayer.utils.UnlockerInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
-import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
 public class PlayActivity extends Activity implements PlaybackController {
     public static final String PLAY_ALBUM = "PLAY_ALBUM";
@@ -318,10 +312,6 @@ public class PlayActivity extends Activity implements PlaybackController {
         logger.log("PlayActivity.onStart");
 
         super.onStart();
-
-        Permissions.requestReadExternalStoragePermission(this);
-        Permissions.requestBluetoothPermission(this);
-        Permissions.requestPhoneStatePermission(this);
 
         if (!launchedNagScreen && !UnlockerInfo.isUnlocked(this)) {
             launchedNagScreen = true;

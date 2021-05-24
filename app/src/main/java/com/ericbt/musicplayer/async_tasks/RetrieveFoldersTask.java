@@ -77,7 +77,7 @@ public class RetrieveFoldersTask implements Runnable
             final List<String> subFolders = new ArrayList<>();
 
             if (folder.getAbsolutePath().equals(StringLiterals.ROOT_PATH)) {
-                for (String filePath : Preferences.getDefaultScanFolders()) {
+                for (String filePath : Preferences.getDefaultScanFolders(folderPickerActivity)) {
                     final File file = new File(filePath);
 
                     if (file.isDirectory() && canListFiles(file, folderPickerActivity)) {

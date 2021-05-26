@@ -20,6 +20,8 @@
 
 package com.ericbt.musicplayer.activities.play_activity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -75,6 +77,9 @@ import com.ericbt.musicplayer.utils.UnlockerInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
+import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
 public class PlayActivity extends Activity implements PlaybackController {
     public static final String PLAY_ALBUM = "PLAY_ALBUM";
@@ -535,6 +540,24 @@ public class PlayActivity extends Activity implements PlaybackController {
                         }
                         break;
 
+                        case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED: {
+                            final int connectionState = intent.getIntExtra(EXTRA_CONNECTION_STATE, -1);
+                            final int prevConnectionState = intent.getIntExtra(EXTRA_PREVIOUS_CONNECTION_STATE, -1);
+                            final BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                            logger.log(String.format(LocaleUtils.getDefaultLocale(),
+                                    "BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED connectionState: %d prevConnectionState: %d bluetoothDevice name: %s address: %s bond state: %d",
+                                    connectionState,
+                                    prevConnectionState,
+                                    bluetoothDevice.getName(),
+                                    bluetoothDevice.getAddress(),
+                                    bluetoothDevice.getBondState()
+                            ));
+
+                            bluetoothChangeProcessor.processChange(intent, PlayActivity.this);
+                        }
+                        break;
+
                         case AudioManager.ACTION_AUDIO_BECOMING_NOISY:
                         case CustomBroadcastReceiver.PAUSE: {
                             pause();
@@ -574,6 +597,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         final IntentFilter intentFilter = new IntentFilter(CustomBroadcastReceiver.CURRENT_TRACK);
         intentFilter.addAction(CustomBroadcastReceiver.LAST_TRACK_PLAYED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+        intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         intentFilter.addAction(CustomBroadcastReceiver.PLAY_PAUSE);
         intentFilter.addAction(CustomBroadcastReceiver.NEXT);

@@ -28,7 +28,7 @@ import com.ericbt.musicplayer.utils.Logger;
 import java.util.Locale;
 
 public class DBCreator extends DBBuilder {
-    private Logger logger;
+    private final Logger logger;
 
     public DBCreator(ScannerService scannerService, Logger logger) {
         super(scannerService);

@@ -130,7 +130,7 @@ public class Preferences {
 	public static int getScrollPrefixLength(Context context) {
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-		return Integer.valueOf(sharedPreferences.getString("scroll_prefix_length", "2"));
+		return Integer.parseInt(sharedPreferences.getString("scroll_prefix_length", "2"));
 	}
 
 	public static boolean isAlbumsTabVisible(Context context) {

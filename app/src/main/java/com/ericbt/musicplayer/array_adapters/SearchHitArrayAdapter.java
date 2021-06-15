@@ -35,9 +35,9 @@ import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.music_library.SearchHit;
 
 public class SearchHitArrayAdapter extends ArrayAdapter<SearchHit> {
-    private Context context;
+    private final Context context;
 
-    private Activity activity;
+    private final Activity activity;
 
     public SearchHitArrayAdapter(Context context, int textViewResourceId, Activity activity) {
         super(context, textViewResourceId);

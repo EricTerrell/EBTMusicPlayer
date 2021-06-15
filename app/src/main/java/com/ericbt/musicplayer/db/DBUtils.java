@@ -108,14 +108,6 @@ public class DBUtils {
         }
     }
 
-    public static long getDatabaseTimeStamp(Context context) {
-        final String dbPath = context.getDatabasePath(DB_NAME).getPath();
-
-        final File dbFile = new File(dbPath);
-
-        return dbFile.exists() ? dbFile.lastModified() : 0;
-    }
-
     public static String escape(String value) {
         return value.replaceAll("'", "''");
     }

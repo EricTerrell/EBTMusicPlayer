@@ -39,7 +39,7 @@ import java.util.List;
 public class FilterCategoryValuesArrayAdapter extends ArrayAdapter<String> implements SectionIndexer {
     private Context context;
 
-    private List<MediaList.PrefixOffset> prefixOffsets = new ArrayList<>();
+    private final List<MediaList.PrefixOffset> prefixOffsets = new ArrayList<>();
 
     private boolean currentCategory;
 

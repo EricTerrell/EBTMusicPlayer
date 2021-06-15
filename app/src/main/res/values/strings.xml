@@ -20,10 +20,6 @@
     <string name="about">About</string>
     <string name="title_activity_license_terms">License Terms</string>
     <string name="title_activity_media_file_metadata">Media File Metadata</string>
-    <string name="title_activity_nag_screen">EBT Music Player Evaluation Version</string>
-    <string name="title_activity_upgrade">Upgrade to Full Version</string>
-
-    <string name="paid_version_url">market://details?id=com.ericbt.musicplayerunlocker</string>
 
     <string name="creating_database">Creating Database</string>
     <string name="adding_media_metadata">Adding Media Metadata</string>

@@ -39,10 +39,7 @@ import com.ericbt.musicplayer.utils.ExceptionLogger;
 import com.ericbt.musicplayer.utils.LocaleUtils;
 import com.ericbt.musicplayer.utils.Logger;
 import com.ericbt.musicplayer.utils.TimeFormatter;
-import com.ericbt.musicplayer.utils.UnlockerInfo;
 import com.ericbt.musicplayer.utils.Version;
-
-import static android.view.View.GONE;
 
 public class AboutActivity extends Activity {
     private LinearLayout statistics;
@@ -89,19 +86,6 @@ public class AboutActivity extends Activity {
 
         final TextView folder = (TextView) findViewById(R.id.folder);
         folder.setText(Logger.getLogFolder(this).toString());
-
-        final Button upgrade = (Button) findViewById(R.id.upgrade);
-
-        if (UnlockerInfo.isUnlocked(this)) {
-            upgrade.setVisibility(GONE);
-        } else {
-            upgrade.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(AboutActivity.this, UpgradeActivity.class));
-                }
-            });
-        }
 
         AsyncTask.submit(new RetrieveMusicLibraryCountsTask(this, this));
     }

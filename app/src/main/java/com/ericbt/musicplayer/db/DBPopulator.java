@@ -53,12 +53,12 @@ public class DBPopulator extends DBBuilder {
 
     private final static int CAPACITY = 1000;
 
-    private Map<String, Long> albums = new HashMap<>(CAPACITY);
-    private PlayListContainer playlists = new PlayListContainer();
+    private final Map<String, Long> albums = new HashMap<>(CAPACITY);
+    private final PlayListContainer playlists = new PlayListContainer();
 
     private static final int NUMERICAL_FIELD_LENGTH = 3;
 
-    private Logger logger;
+    private final Logger logger;
 
     public DBPopulator(ScannerService musicPlayerService, Logger logger) {
         super(musicPlayerService);

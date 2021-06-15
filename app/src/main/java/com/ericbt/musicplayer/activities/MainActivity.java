@@ -56,7 +56,6 @@ import com.ericbt.musicplayer.music_library.PlayList;
 import com.ericbt.musicplayer.music_library.Track;
 import com.ericbt.musicplayer.utils.DebugUtils;
 import com.ericbt.musicplayer.utils.Logger;
-import com.ericbt.musicplayer.utils.UnlockerInfo;
 
 import java.util.ArrayList;
 
@@ -86,7 +85,7 @@ public class MainActivity extends Activity {
 
     private TabHost.TabSpec albumsTabSpec, playListsTabSpec, tracksTabSpec;
 
-    private Button search, upgrade, clear, play, filter;
+    private Button search, clear, play, filter;
 
     private Logger logger;
 
@@ -145,19 +144,6 @@ public class MainActivity extends Activity {
 
             if (Preferences.getScanFolderPaths(this).size() == 0) {
                 Preferences.putScanFolderPaths(this, Preferences.getDefaultScanFolders(this));
-            }
-
-            upgrade = (Button) findViewById(R.id.upgrade);
-
-            if (UnlockerInfo.isUnlocked(this)) {
-                upgrade.setVisibility(GONE);
-            } else {
-                upgrade.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, UpgradeActivity.class));
-                    }
-                });
             }
 
             clear = (Button) findViewById(R.id.clear);
@@ -336,13 +322,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        logger.log("MainActivity.onResume");
-
         super.onResume();
 
-        if (UnlockerInfo.isUnlocked(this)) {
-            upgrade.setVisibility(GONE);
-        }
+        logger.log("MainActivity.onResume");
     }
 
     @Override
@@ -366,7 +348,6 @@ public class MainActivity extends Activity {
                 tabHost.getTabWidget(),
                 mediaListView,
                 search,
-                upgrade,
                 clear,
                 play,
                 filter

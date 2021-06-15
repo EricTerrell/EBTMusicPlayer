@@ -27,7 +27,7 @@ import com.ericbt.musicplayer.PlaybackController;
 import com.ericbt.musicplayer.utils.Logger;
 
 public abstract class ChangeProcessor {
-    private PlaybackController playbackController;
+    private final PlaybackController playbackController;
 
     private final int connectedStateValue, disconnectedStateValue;
 

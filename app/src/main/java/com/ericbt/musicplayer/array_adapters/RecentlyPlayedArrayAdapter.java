@@ -31,7 +31,7 @@ import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.recently_played.RecentlyPlayedData;
 
 public class RecentlyPlayedArrayAdapter extends ArrayAdapter<RecentlyPlayedData> {
-    private Context context;
+    private final Context context;
 
     public RecentlyPlayedArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);

@@ -34,15 +34,15 @@ import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK;
 
 public class AudioFocusChangeProcessor {
-    private PlaybackController playbackController;
+    private final PlaybackController playbackController;
 
-    private Logger logger;
+    private final Logger logger;
 
     public AudioManager.OnAudioFocusChangeListener getOnAudioFocusChangeListener() {
         return onAudioFocusChangeListener;
     }
 
-    private AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
+    private final AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener;
 
     public AudioFocusChangeProcessor(Context context, PlaybackController playbackController) {
         this.playbackController = playbackController;

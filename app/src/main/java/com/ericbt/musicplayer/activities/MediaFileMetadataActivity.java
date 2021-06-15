@@ -30,20 +30,18 @@ import android.widget.TextView;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.utils.DebugUtils;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class MediaFileMetadataActivity extends Activity {
-    public static final String METADATA_BUNDLE = "METADATA_BUNDLE";
     private static final int PREFIX_LENGTH = 2;
 
     private static class NameValuePair {
-        private String name;
+        private final String name;
 
-        private String value;
+        private final String value;
 
         public NameValuePair(String name, String value) {
             this.name = name;
@@ -60,8 +58,6 @@ public class MediaFileMetadataActivity extends Activity {
     }
 
     private static class NameValueComparitor implements Comparator<NameValuePair> {
-        private Collator collator = Collator.getInstance();
-
         @Override
         public int compare(NameValuePair nameValuePair1, NameValuePair nameValuePair2) {
             return nameValuePair1.getName().substring(0, PREFIX_LENGTH + 1).compareTo(nameValuePair2.getName().substring(0, PREFIX_LENGTH + 1));

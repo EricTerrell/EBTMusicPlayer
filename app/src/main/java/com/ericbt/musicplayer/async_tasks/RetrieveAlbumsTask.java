@@ -33,11 +33,11 @@ import static com.ericbt.musicplayer.activities.play_activity.PlayActivity.PLAY_
 
 public class RetrieveAlbumsTask implements Runnable
 {
-    private PlayActivity playActivity;
+    private final PlayActivity playActivity;
 
-    private List<Long> albumIds;
+    private final List<Long> albumIds;
 
-    private Position position;
+    private final Position position;
 
     public RetrieveAlbumsTask(PlayActivity playActivity, List<Long> albumIds, Position position) {
         this.playActivity = playActivity;

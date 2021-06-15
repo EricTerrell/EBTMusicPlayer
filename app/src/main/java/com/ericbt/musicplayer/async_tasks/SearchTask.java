@@ -31,11 +31,11 @@ import java.util.List;
 
 public class SearchTask implements Runnable
 {
-    private Context context;
+    private final Context context;
 
-    private SearchActivity searchActivity;
+    private final SearchActivity searchActivity;
 
-    private String searchText;
+    private final String searchText;
 
     public SearchTask(Context context, SearchActivity searchActivity, String searchText) {
         this.context = context;

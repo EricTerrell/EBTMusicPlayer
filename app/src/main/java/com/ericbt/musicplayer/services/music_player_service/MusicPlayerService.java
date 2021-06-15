@@ -54,8 +54,6 @@ import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static android.app.Notification.VISIBILITY_PUBLIC;
-
 public class MusicPlayerService extends BaseService {
     private final static String ACTION_PREVIOUS = "ACTION_PREVIOUS";
     private final static String ACTION_NEXT = "ACTION_NEXT";
@@ -73,7 +71,7 @@ public class MusicPlayerService extends BaseService {
 
     private Timer timer;
 
-    private AtomicInteger timerCount = new AtomicInteger(1);
+    private final AtomicInteger timerCount = new AtomicInteger(1);
 
     private final ThreadUnsafeVariables threadUnsafeVariables = new ThreadUnsafeVariables();
     

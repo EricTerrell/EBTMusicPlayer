@@ -28,9 +28,9 @@ import java.util.List;
 
 public class RetrieveAllFilterCategoryValues implements Runnable
 {
-    private FilterActivity filterActivity;
+    private final FilterActivity filterActivity;
 
-    private String filterCategory;
+    private final String filterCategory;
 
     public RetrieveAllFilterCategoryValues(FilterActivity filterActivity, String filterCategory) {
         this.filterActivity = filterActivity;

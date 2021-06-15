@@ -40,12 +40,6 @@ public class LicenseTermsActivity extends Activity {
 
     private AlertDialog alertDialog;
 
-    private static boolean active;
-
-    public static boolean isActive() {
-        return active;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         DebugUtils.enableStrictMode(this);
@@ -109,20 +103,6 @@ public class LicenseTermsActivity extends Activity {
         if (allowCancel) {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        active = true;
-
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        active = false;
-
-        super.onStop();
     }
 
     @Override

@@ -30,14 +30,12 @@ import android.widget.TextView;
 import com.ericbt.musicplayer.R;
 
 public class FolderPickerArrayAdapter<T> extends ArrayAdapter<String> {
-    protected Context context;
-    protected int textViewResourceId;
+    protected final Context context;
 
     public FolderPickerArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
 
         this.context = context;
-        this.textViewResourceId = textViewResourceId;
     }
 
     @Override

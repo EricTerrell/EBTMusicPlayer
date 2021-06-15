@@ -37,11 +37,11 @@ import java.util.List;
 
 public class RetrieveFoldersTask implements Runnable
 {
-    private FolderPickerActivity folderPickerActivity;
+    private final FolderPickerActivity folderPickerActivity;
 
-    private File folder;
+    private final File folder;
 
-    private Logger logger;
+    private final Logger logger;
 
     public RetrieveFoldersTask(FolderPickerActivity folderPickerActivity, File folder) {
         this.folderPickerActivity = folderPickerActivity;
@@ -63,7 +63,7 @@ public class RetrieveFoldersTask implements Runnable
     }
 
     private static class StringComparitor implements Comparator<String> {
-        private Collator collator = Collator.getInstance();
+        private final Collator collator = Collator.getInstance();
 
         @Override
         public int compare(String string1, String string2) {

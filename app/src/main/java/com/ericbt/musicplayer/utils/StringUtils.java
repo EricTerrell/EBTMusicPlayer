@@ -23,16 +23,6 @@ package com.ericbt.musicplayer.utils;
 import com.ericbt.musicplayer.StringLiterals;
 
 public class StringUtils {
-    public static String trimAtFirstNull(String string) {
-        final int firstNullPos = string.indexOf('\0');
-
-        if (firstNullPos >= 0) {
-            return string.substring(0, firstNullPos);
-        } else {
-            return string;
-        }
-    }
-
     public static String trim(String str) {
         return str != null ? str.trim() : StringLiterals.EMPTY_STRING;
     }
@@ -40,7 +30,7 @@ public class StringUtils {
     public static String initialLetterUpperCase(String str) {
         str = StringUtils.trim(str);
 
-        return (str != null & str.length() > 0) ? str.substring(0, 1).toUpperCase() + str.substring(1, str.length()) : StringLiterals.EMPTY_STRING;
+        return (str != null & str.length() > 0) ? str.substring(0, 1).toUpperCase() + str.substring(1) : StringLiterals.EMPTY_STRING;
     }
 
     public static String zeroPad(String str, int maxLength) {
@@ -90,9 +80,5 @@ public class StringUtils {
 
     public static boolean isBlank(String str) {
         return str == null || str.trim().length() == 0;
-    }
-
-    public static boolean isNotBlank(String str) {
-        return !isBlank(str);
     }
 }

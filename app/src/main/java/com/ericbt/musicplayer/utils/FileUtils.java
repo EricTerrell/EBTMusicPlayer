@@ -64,14 +64,9 @@ public class FileUtils {
 	 * @throws IOException if copy fails
 	 */
 	public static void copyFile(String srcPath, String destPath) throws IOException {
-		FileInputStream inputStream = null;
-		FileOutputStream outputStream = null;
-
-		try {
-			inputStream = new FileInputStream(srcPath);
-			outputStream = new FileOutputStream(destPath);
-
-			byte[] buffer = new byte[1024];
+		try (FileInputStream inputStream = new FileInputStream(srcPath);
+			 FileOutputStream outputStream = new FileOutputStream(destPath)) {
+			final byte[] buffer = new byte[1024];
 			int length;
 
 			while ((length = inputStream.read(buffer)) > 0) {
@@ -79,14 +74,6 @@ public class FileUtils {
 			}
 
 			outputStream.flush();
-		} finally {
-			if (inputStream != null) {
-				inputStream.close();
-			}
-
-			if (outputStream != null) {
-				outputStream.close();
-			}
 		}
 	}
 

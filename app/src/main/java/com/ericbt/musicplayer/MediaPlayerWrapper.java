@@ -29,7 +29,7 @@ import com.ericbt.musicplayer.utils.Logger;
 public class MediaPlayerWrapper {
     private MediaPlayer mediaPlayer, nextMediaPlayer;
     
-    private Logger logger;
+    private final Logger logger;
 
     public MediaPlayerWrapper(Context context, MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;

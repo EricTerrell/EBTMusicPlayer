@@ -35,13 +35,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Logger {
-    private Context context;
+    private final Context context;
 
-    private String logFilePath;
+    private final String logFilePath;
 
-    private boolean isLoggingActive;
+    private final boolean isLoggingActive;
 
-    private static Set<String> logFilesToPublish = new HashSet<>();
+    private final static Set<String> logFilesToPublish = new HashSet<>();
 
     public Logger(Context context, boolean isLoggingActive) {
         this.context = context;

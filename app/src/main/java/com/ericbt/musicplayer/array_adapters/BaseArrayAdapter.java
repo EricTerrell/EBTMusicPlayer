@@ -32,18 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseArrayAdapter<T> extends ArrayAdapter<T> implements SectionIndexer {
-    protected Context context;
-    protected int textViewResourceId;
+    protected final Context context;
 
-    private List<MediaList.PrefixOffset> prefixOffsets;
+    private final List<MediaList.PrefixOffset> prefixOffsets;
 
-    private Object[] prefixes;
+    private final Object[] prefixes;
 
     public BaseArrayAdapter(Context context, int textViewResourceId, List<MediaList.PrefixOffset> prefixOffsets) {
         super(context, textViewResourceId);
 
         this.context = context;
-        this.textViewResourceId = textViewResourceId;
         this.prefixOffsets = prefixOffsets;
 
         List<String> prefixList = new ArrayList<>();

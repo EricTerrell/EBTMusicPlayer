@@ -26,13 +26,13 @@ import java.util.Comparator;
 public class SearchHit {
     public enum SearchHitType { PLAYLIST, ALBUM, TRACK }
 
-    private long id;
+    private final long id;
 
-    private SearchHitType type;
+    private final SearchHitType type;
 
-    private String text;
+    private final String text;
 
-    private Track track;
+    private final Track track;
 
     public SearchHit(SearchHitType type, String text, long id, Track track) {
 
@@ -62,12 +62,8 @@ public class SearchHit {
         return track;
     }
 
-    public void setTrack(Track track) {
-        this.track = track;
-    }
-
     public static class SearchHitComparitor implements Comparator<SearchHit> {
-        private Collator collator = Collator.getInstance();
+        private final Collator collator = Collator.getInstance();
 
         @Override
         public int compare(SearchHit searchHit1, SearchHit searchHit2) {

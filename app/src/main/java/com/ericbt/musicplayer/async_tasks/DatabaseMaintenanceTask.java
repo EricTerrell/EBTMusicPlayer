@@ -36,9 +36,9 @@ import static com.ericbt.musicplayer.async_tasks.RetrieveRecentlyPlayedDataTask.
 
 public class DatabaseMaintenanceTask implements Runnable
 {
-    private Context context;
+    private final Context context;
 
-    private Logger logger;
+    private final Logger logger;
 
     public DatabaseMaintenanceTask(Context context, Logger logger) {
         this.context = context;

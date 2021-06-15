@@ -27,7 +27,7 @@ import com.ericbt.musicplayer.utils.ExceptionLogger;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 public class CustomUncaughtExceptionHandler implements UncaughtExceptionHandler {
-    private Context context;
+    private final Context context;
 
     public CustomUncaughtExceptionHandler(Context context) {
         this.context = context;

@@ -35,11 +35,11 @@ public class RetrieveRecentlyPlayedDataTask implements Runnable
 {
     public static final int ROWS = 100;
 
-    private Context context;
+    private final Context context;
 
-    private RecentlyPlayedActivity recentlyPlayedActivity;
+    private final RecentlyPlayedActivity recentlyPlayedActivity;
 
-    private Logger logger;
+    private final Logger logger;
 
     public RetrieveRecentlyPlayedDataTask(Context context, RecentlyPlayedActivity recentlyPlayedActivity, Logger logger) {
         this.context = context;

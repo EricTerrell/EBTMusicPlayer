@@ -32,9 +32,9 @@ import static android.telephony.TelephonyManager.CALL_STATE_RINGING;
 
 
 public class CustomPhoneStateListener extends PhoneStateListener {
-    private PlaybackController playbackController;
+    private final PlaybackController playbackController;
 
-    private Logger logger;
+    private final Logger logger;
 
     public CustomPhoneStateListener(Context context, PlaybackController playbackController) {
         this.playbackController = playbackController;

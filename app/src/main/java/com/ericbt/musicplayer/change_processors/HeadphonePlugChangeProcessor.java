@@ -28,7 +28,7 @@ import com.ericbt.musicplayer.PlaybackController;
 import com.ericbt.musicplayer.Preferences;
 
 public class HeadphonePlugChangeProcessor extends ChangeProcessor {
-    private Context context;
+    private final Context context;
 
     public HeadphonePlugChangeProcessor(PlaybackController playbackController, Context context) {
         super(playbackController, 1, 0);

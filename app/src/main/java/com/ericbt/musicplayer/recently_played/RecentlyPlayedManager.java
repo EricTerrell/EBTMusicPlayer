@@ -38,8 +38,8 @@ import java.util.List;
 public class RecentlyPlayedManager {
     private final String TABLE = "RecentlyPlayed";
 
-    private Context context;
-    private Logger logger;
+    private final Context context;
+    private final Logger logger;
 
     public RecentlyPlayedManager(Context context, Logger logger) {
         this.context = context;

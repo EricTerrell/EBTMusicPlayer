@@ -27,7 +27,7 @@ import com.ericbt.musicplayer.exceptions.ScanCancelledException;
 import com.ericbt.musicplayer.services.scanner_service.ScannerService;
 
 public class DBBuilder {
-    protected ScannerService scannerService;
+    protected final ScannerService scannerService;
 
     public DBBuilder(ScannerService scannerService) {
         this.scannerService = scannerService;

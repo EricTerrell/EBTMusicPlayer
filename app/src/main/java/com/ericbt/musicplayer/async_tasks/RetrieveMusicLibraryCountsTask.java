@@ -30,9 +30,9 @@ import com.ericbt.musicplayer.utils.ExceptionLogger;
 
 public class RetrieveMusicLibraryCountsTask implements Runnable
 {
-    private Context context;
+    private final Context context;
 
-    private AboutActivity aboutActivity;
+    private final AboutActivity aboutActivity;
 
     public RetrieveMusicLibraryCountsTask(Context context, AboutActivity aboutActivity) {
         this.context = context;

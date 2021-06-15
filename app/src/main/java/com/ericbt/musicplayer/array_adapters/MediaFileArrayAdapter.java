@@ -35,9 +35,9 @@ import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.music_library.Track;
 
 public class MediaFileArrayAdapter extends ArrayAdapter<Track> {
-    private Context context;
+    private final Context context;
 
-    private Activity activity;
+    private final Activity activity;
 
     public MediaFileArrayAdapter(Context context, int textViewResourceId, Activity activity) {
         super(context, textViewResourceId);

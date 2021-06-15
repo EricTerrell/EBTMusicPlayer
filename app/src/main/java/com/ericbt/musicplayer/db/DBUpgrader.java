@@ -28,8 +28,8 @@ import com.ericbt.musicplayer.utils.Logger;
 import java.util.Date;
 
 public class DBUpgrader {
-    private Logger logger;
-    private SQLiteDatabase db;
+    private final Logger logger;
+    private final SQLiteDatabase db;
 
     public DBUpgrader(Logger logger, SQLiteDatabase db) {
         this.logger = logger;

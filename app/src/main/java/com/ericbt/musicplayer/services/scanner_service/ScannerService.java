@@ -36,8 +36,6 @@ import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
 import com.ericbt.musicplayer.services.BaseService;
 import com.ericbt.musicplayer.utils.ExceptionLogger;
 
-import static android.app.Notification.VISIBILITY_PUBLIC;
-
 public class ScannerService extends BaseService {
     private static final int NOTIFICATION_ID = 1001;
 

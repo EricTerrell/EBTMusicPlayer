@@ -46,7 +46,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ericbt.musicplayer.activities.MainActivity;
-import com.ericbt.musicplayer.activities.NagScreenActivity;
 import com.ericbt.musicplayer.change_processors.AudioFocusChangeProcessor;
 import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
 import com.ericbt.musicplayer.CustomPhoneStateListener;
@@ -72,11 +71,9 @@ import com.ericbt.musicplayer.utils.LocaleUtils;
 import com.ericbt.musicplayer.utils.Logger;
 import com.ericbt.musicplayer.utils.NavigationUtils;
 import com.ericbt.musicplayer.utils.TimeFormatter;
-import com.ericbt.musicplayer.utils.UnlockerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
 import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
@@ -92,7 +89,6 @@ public class PlayActivity extends Activity implements PlaybackController {
     private static final String TRACK_TITLE = "TRACK_TITLE";
     private static final String TRACK_DURATION = "TRACK_DURATION";
     private static final String TRACK_ARTIST = "TRACK_ARTIST";
-    private static final String LAUNCHED_NAG_SCREEN = "LAUNCHED_NAG_SCREEN";
     private static final String IS_PLAYBACK_FINISHED = "IS_PLAYBACK_FINISHED";
     private static final String IS_PROGRAMATICALLY_PAUSED = "IS_PROGRAMATICALLY_PAUSED";
 
@@ -135,13 +131,11 @@ public class PlayActivity extends Activity implements PlaybackController {
 
     private AudioFocusChangeProcessor audioFocusChangeProcessor;
 
-    private boolean launchedNagScreen, isPlaybackFinished, isProgramaticallyPaused;
+    private boolean isPlaybackFinished, isProgramaticallyPaused;
 
     private TelephonyManager telephonyManager;
     
     private Logger logger;
-
-    private AtomicInteger timerCount = new AtomicInteger(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,8 +231,6 @@ public class PlayActivity extends Activity implements PlaybackController {
             currentTrackDuration.setText(TimeFormatter.toHHMMSS(trackDuration));
             currentTrackCurrentPosition.setText(TimeFormatter.toHHMMSS(position.getPositionInTrack()));
 
-            launchedNagScreen = savedInstanceState.getBoolean(LAUNCHED_NAG_SCREEN);
-
             isPlaybackFinished = savedInstanceState.getBoolean(IS_PLAYBACK_FINISHED);
 
             isProgramaticallyPaused = savedInstanceState.getBoolean(IS_PROGRAMATICALLY_PAUSED);
@@ -314,14 +306,9 @@ public class PlayActivity extends Activity implements PlaybackController {
 
     @Override
     public void onStart() {
-        logger.log("PlayActivity.onStart");
-
         super.onStart();
 
-        if (!launchedNagScreen && !UnlockerInfo.isUnlocked(this)) {
-            launchedNagScreen = true;
-            startActivity(new Intent(this, NagScreenActivity.class));
-        }
+        logger.log("PlayActivity.onStart");
     }
 
     @Override
@@ -691,7 +678,6 @@ public class PlayActivity extends Activity implements PlaybackController {
             outState.putInt(SELECTED_TRACK, -1);
         }
 
-        outState.putBoolean(LAUNCHED_NAG_SCREEN, launchedNagScreen);
         outState.putBoolean(IS_PLAYBACK_FINISHED, isPlaybackFinished);
         outState.putBoolean(IS_PROGRAMATICALLY_PAUSED, isProgramaticallyPaused);
 
@@ -811,7 +797,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         return result;
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             logger.log("PlayActivity.onServiceDisconnected");

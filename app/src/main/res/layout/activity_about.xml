@@ -150,15 +150,6 @@
             android:layout_marginBottom="10dp"
             android:text="Read License Terms" >
         </Button>
-
-        <Button
-            android:id="@+id/upgrade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Upgrade"
-            >
-        </Button>
     </LinearLayout>
 
 </ScrollView>

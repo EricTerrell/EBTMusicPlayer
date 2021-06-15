@@ -21,9 +21,9 @@
 package com.ericbt.musicplayer.services.music_player_service;
 
 public class TrackProgress {
-    private int currentPosition;
+    private final int currentPosition;
 
-    private int duration;
+    private final int duration;
 
     public TrackProgress(int currentPosition, int duration) {
         this.currentPosition = currentPosition;
@@ -34,16 +34,8 @@ public class TrackProgress {
         return currentPosition;
     }
 
-    public void setCurrentPosition(int currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
     public int getDuration() {
         return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     @Override

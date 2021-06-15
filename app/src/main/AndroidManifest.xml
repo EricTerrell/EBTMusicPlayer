@@ -86,14 +86,6 @@
             android:label="@string/title_activity_media_file_metadata" />
 
         <activity
-            android:name=".activities.NagScreenActivity"
-            android:label="@string/title_activity_nag_screen" />
-
-        <activity
-            android:name=".activities.UpgradeActivity"
-            android:label="@string/title_activity_upgrade" />
-
-        <activity
             android:name=".activities.PlayTipsActivity"
             android:label="@string/title_activity_play_tips" />
 

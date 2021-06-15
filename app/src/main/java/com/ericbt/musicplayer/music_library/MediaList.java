@@ -25,9 +25,9 @@ import java.util.List;
 
 public class MediaList<T> {
     public static class PrefixOffset {
-        private String prefix;
+        private final String prefix;
 
-        private int offset;
+        private final int offset;
 
         public PrefixOffset(String prefix, int offset) {
             this.prefix = prefix;
@@ -38,22 +38,14 @@ public class MediaList<T> {
             return prefix;
         }
 
-        public void setPrefix(String prefix) {
-            this.prefix = prefix;
-        }
-
         public int getOffset() {
             return offset;
-        }
-
-        public void setOffset(int offset) {
-            this.offset = offset;
         }
     }
 
     private List<T> media;
 
-    private List<PrefixOffset> prefixOffsets = new ArrayList<>();
+    private final List<PrefixOffset> prefixOffsets = new ArrayList<>();
 
     public List<T> getMedia() {
         return media;

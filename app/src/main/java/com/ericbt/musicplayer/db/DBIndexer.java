@@ -26,7 +26,7 @@ import com.ericbt.musicplayer.services.scanner_service.ScannerService;
 import com.ericbt.musicplayer.utils.Logger;
 
 public class DBIndexer extends DBBuilder {
-    private Logger logger;
+    private final Logger logger;
 
     public DBIndexer(ScannerService musicPlayerService, Logger logger) {
         super(musicPlayerService);

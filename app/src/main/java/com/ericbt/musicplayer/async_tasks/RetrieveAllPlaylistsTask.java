@@ -31,9 +31,9 @@ import com.ericbt.musicplayer.utils.ExceptionLogger;
 
 public class RetrieveAllPlaylistsTask implements Runnable
 {
-    private Context context;
+    private final Context context;
 
-    private MainActivity mainActivity;
+    private final MainActivity mainActivity;
 
     public RetrieveAllPlaylistsTask(Context context, MainActivity mainActivity) {
         this.context = context;

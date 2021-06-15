@@ -35,14 +35,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ScanFoldersArrayAdapter<T> extends ArrayAdapter<String> {
-    protected Context context;
-    protected int textViewResourceId;
+    protected final Context context;
 
     public ScanFoldersArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
 
         this.context = context;
-        this.textViewResourceId = textViewResourceId;
     }
 
     @Override

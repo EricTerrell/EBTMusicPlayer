@@ -36,9 +36,9 @@ import com.ericbt.musicplayer.utils.Logger;
 
 public class ScanTask implements Runnable
 {
-    private ScannerService scannerService;
+    private final ScannerService scannerService;
 
-    private ScanActivity scanActivity;
+    private final ScanActivity scanActivity;
 
     public ScanTask(ScannerService scannerService, ScanActivity scanActivity) {
         this.scannerService = scannerService;

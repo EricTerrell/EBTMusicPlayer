@@ -20,11 +20,15 @@
 
 package com.ericbt.musicplayer.activities;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +39,6 @@ import android.widget.ListView;
 import android.widget.TabHost;
 
 import com.ericbt.musicplayer.CustomUncaughtExceptionHandler;
-import com.ericbt.musicplayer.Permissions;
 import com.ericbt.musicplayer.Preferences;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
@@ -67,13 +70,15 @@ import static com.ericbt.musicplayer.activities.play_activity.PlayActivity.PLAY_
 import static com.ericbt.musicplayer.activities.play_activity.PlayActivity.PLAY_TRACK;
 
 public class MainActivity extends Activity {
+    private final static int SCAN_ACTIVITY            = 1000;
+    private final static int ACCEPT_LICENSE_TERMS     = 1001;
+    private final static int REQUEST_PERMISSIONS_CODE = 1002;
+
     private static final String ALBUMS_INDICATOR = "albums";
     private static final String PLAYLISTS_INDICATOR = "playlists";
     private static final String TRACKS_INDICATOR = "tracks";
 
     private static final int FILTER = 1;
-
-    private static final int SCAN_ACTIVITY = 1000;
 
     private SharedPreferences sharedPreferences;
 
@@ -88,6 +93,13 @@ public class MainActivity extends Activity {
     private Button search, clear, play, filter;
 
     private Logger logger;
+
+    private int numberOfRejections = 0;
+
+    final String[] permissions = new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +158,7 @@ public class MainActivity extends Activity {
                 Preferences.putScanFolderPaths(this, Preferences.getDefaultScanFolders(this));
             }
 
-            clear = (Button) findViewById(R.id.clear);
+            clear = findViewById(R.id.clear);
 
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +167,7 @@ public class MainActivity extends Activity {
                 }
             });
 
-            play = (Button) findViewById(R.id.play);
+            play = findViewById(R.id.play);
 
             play.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,7 +207,7 @@ public class MainActivity extends Activity {
                 }
             });
 
-            filter = (Button) findViewById(R.id.filter);
+            filter = findViewById(R.id.filter);
 
             filter.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -270,25 +282,24 @@ public class MainActivity extends Activity {
 
         // Prompt user to accept license terms if they have not been previously accepted.
         if (!Preferences.userAcceptedTerms(this)) {
-            Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
+            final Intent licenseTermsIntent = new Intent(this, LicenseTermsActivity.class);
             licenseTermsIntent.putExtra(StringLiterals.ALLOW_CANCEL, false);
-            startActivity(licenseTermsIntent);
+            startActivityForResult(licenseTermsIntent, ACCEPT_LICENSE_TERMS);
+        } else {
+            requestPermissions();
         }
     }
 
     private void setupScanButton() {
         logger.log("MainActivity.setupScanButton");
 
-        final Button scan = (Button) findViewById(R.id.scan);
+        final Button scan = findViewById(R.id.scan);
 
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(MainActivity.this, ScanActivity.class);
-                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+        scan.setOnClickListener(v -> {
+            final Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
 
-                startActivityForResult(intent, SCAN_ACTIVITY);
-            }
+            startActivityForResult(intent, SCAN_ACTIVITY);
         });
 
         scan.setVisibility(DBUtils.databaseExists(this) ? GONE : View.VISIBLE);
@@ -316,8 +327,6 @@ public class MainActivity extends Activity {
 
             finish();
         }
-
-        Permissions.requestPermissions(this);
     }
 
     @Override
@@ -353,7 +362,7 @@ public class MainActivity extends Activity {
                 filter
         };
 
-        for (View view : views) {
+        for (final View view : views) {
             if (view != null) {
                 view.setEnabled(enabled);
             }
@@ -406,7 +415,7 @@ public class MainActivity extends Activity {
         mediaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String> ids = new ArrayList<>();
+                final ArrayList<String> ids = new ArrayList<>();
                 ids.add(String.valueOf(id));
 
                 startPlayActivity(PLAY_ALBUM, ids);
@@ -416,7 +425,7 @@ public class MainActivity extends Activity {
         mediaListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Media item = (Media) mediaListView.getItemAtPosition(position);
+                final Media item = (Media) mediaListView.getItemAtPosition(position);
 
                 item.setChecked(!item.isChecked());
 
@@ -440,24 +449,21 @@ public class MainActivity extends Activity {
         mediaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String> ids = new ArrayList<>();
+                final ArrayList<String> ids = new ArrayList<>();
                 ids.add(String.valueOf(id));
 
                 startPlayActivity(PLAY_PLAYLIST, ids);
             }
         });
 
-        mediaListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Media item = (Media) mediaListView.getItemAtPosition(position);
+        mediaListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            final Media item = (Media) mediaListView.getItemAtPosition(position);
 
-                item.setChecked(!item.isChecked());
+            item.setChecked(!item.isChecked());
 
-                playListArrayAdapter.notifyDataSetChanged();
+            playListArrayAdapter.notifyDataSetChanged();
 
-                return true;
-            }
+            return true;
         });
 
         recordScrollPosition();
@@ -471,27 +477,21 @@ public class MainActivity extends Activity {
         mediaListView.setAdapter(trackArrayAdapter);
         trackArrayAdapter.addAll(tracks.getMedia());
 
-        mediaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String> ids = new ArrayList<>();
-                ids.add(String.valueOf(id));
+        mediaListView.setOnItemClickListener((parent, view, position, id) -> {
+            ArrayList<String> ids = new ArrayList<>();
+            ids.add(String.valueOf(id));
 
-                startPlayActivity(PLAY_TRACK, ids);
-            }
+            startPlayActivity(PLAY_TRACK, ids);
         });
 
-        mediaListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Media item = (Media) mediaListView.getItemAtPosition(position);
+        mediaListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            Media item = (Media) mediaListView.getItemAtPosition(position);
 
-                item.setChecked(!item.isChecked());
+            item.setChecked(!item.isChecked());
 
-                trackArrayAdapter.notifyDataSetChanged();
+            trackArrayAdapter.notifyDataSetChanged();
 
-                return true;
-            }
+            return true;
         });
 
         recordScrollPosition();
@@ -602,6 +602,101 @@ public class MainActivity extends Activity {
                 refreshMediaListView();
             }
             break;
+
+            case ACCEPT_LICENSE_TERMS: {
+                requestPermissions();
+            }
+            break;
         }
+    }
+
+    private boolean haveAllPermissions() {
+        for (final String permission : permissions) {
+            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void requestPermissions() {
+        Log.i(StringLiterals.LOG_TAG, "MainActivity.requestPermissions");
+
+        if (!haveAllPermissions()) {
+            requestPermissions(permissions, REQUEST_PERMISSIONS_CODE);
+        }
+    }
+
+    private boolean allPermissionsGranted(int[] grantResults) {
+        if (grantResults.length == 0) {
+            return false;
+        }
+
+        for (final int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        Log.i(StringLiterals.LOG_TAG, "MainActivity.onRequestPermissionsResult");
+
+        if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            if (!allPermissionsGranted(grantResults)) {
+                numberOfRejections++;
+
+                Log.i(StringLiterals.LOG_TAG,
+                        String.format("numberOfRejections: %d", numberOfRejections));
+
+                // https://www.androidpolice.com/2020/02/19/android-11-will-block-apps-from-repeatedly-asking-for-permissions/
+                if (numberOfRejections < 2) {
+                    displayPermissionsDeniedMessage();
+                } else {
+                    displayGameOverMessage();
+                }
+            }
+        }
+    }
+
+    private void displayPermissionsDeniedMessage() {
+        Log.i(StringLiterals.LOG_TAG, "MainActivity.displayPermissionsDeniedMessage");
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getString(R.string.permissions));
+        alertDialogBuilder.setMessage(getString(R.string.permissions_not_granted));
+
+        alertDialogBuilder.setPositiveButton(StringLiterals.REQUEST_PERMISSIONS, (dialog, which) -> {
+            requestPermissions();
+        });
+
+        alertDialogBuilder.setNegativeButton(StringLiterals.CANCEL, (dialog, which) -> {
+            finish();
+        });
+
+        final AlertDialog promptDialog = alertDialogBuilder.create();
+        promptDialog.setCancelable(false);
+        promptDialog.show();
+    }
+
+    private void displayGameOverMessage() {
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(getString(R.string.permissions));
+        alertDialogBuilder.setMessage(getString(R.string.game_over));
+
+        alertDialogBuilder.setPositiveButton(StringLiterals.OK, (dialog, which) -> {
+        });
+
+        final AlertDialog promptDialog = alertDialogBuilder.create();
+        promptDialog.setCancelable(false);
+        promptDialog.show();
     }
 }

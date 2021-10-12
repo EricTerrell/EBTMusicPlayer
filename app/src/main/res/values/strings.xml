@@ -6,6 +6,10 @@
     <string name="title_activity_play">Play</string>
     <string name="title_activity_folder_picker">Folder Picker</string>
 
+    <string name="permissions">Permissions</string>
+    <string name="permissions_not_granted">Some permissions were not granted.\n\nEBT Music Player may not function correctly until all permissions are granted.\n\nPermissions are necessary to read music tracks and pause when the phone rings.\n\nClick \"Request Permissions\" to grant permissions.</string>
+    <string name="game_over">EBT Music Player may not function correctly without all permissions.</string>
+
     <string-array name="scroll_prefix_length_strings">
         <item>1</item>
         <item>2</item>

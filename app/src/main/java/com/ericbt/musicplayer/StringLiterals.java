@@ -21,15 +21,18 @@
 package com.ericbt.musicplayer;
 
 public class StringLiterals {
-    public static final String LOG_TAG        = "EBTMusicPlayer";
-    public static final String LOG_FILE_NAME  = "log.txt";
-    public static final String NEWLINE        = System.getProperty("line.separator");
-    public static final String DB_NAME        = "musicplayer.db";
-    public static final String NEW_DB_NAME    = "musicplayer.db.new";
-    public static final String PATH_SEPARATOR = System.getProperty("file.separator");
-    public static final String APP_NAME       = "EBT Music Player";
-    public static final String ALLOW_CANCEL   = "ALLOW_CANCEL";
-    public static final String ROOT_PATH      = "/";
-    public static final String EMPTY_STRING   = "";
-    public static final String EXIT           = "EXIT";
+    public static final String LOG_TAG             = "EBTMusicPlayer";
+    public static final String LOG_FILE_NAME       = "log.txt";
+    public static final String NEWLINE             = System.getProperty("line.separator");
+    public static final String DB_NAME             = "musicplayer.db";
+    public static final String NEW_DB_NAME         = "musicplayer.db.new";
+    public static final String PATH_SEPARATOR      = System.getProperty("file.separator");
+    public static final String APP_NAME            = "EBT Music Player";
+    public static final String ALLOW_CANCEL        = "ALLOW_CANCEL";
+    public static final String ROOT_PATH           = "/";
+    public static final String EMPTY_STRING        = "";
+    public static final String EXIT                = "EXIT";
+    public static final String OK                  = "OK";
+    public static final String CANCEL              = "Cancel";
+    public static final String REQUEST_PERMISSIONS = "Request Permissions";
 }

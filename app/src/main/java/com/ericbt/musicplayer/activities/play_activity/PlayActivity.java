@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -158,43 +158,27 @@ public class PlayActivity extends Activity implements PlaybackController {
 
         play = (ImageButton) findViewById(R.id.play);
 
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                play(true);
-            }
-        });
+        play.setOnClickListener(v -> play(true));
 
         pause = (ImageButton) findViewById(R.id.pause);
 
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pause();
-            }
-        });
+        pause.setOnClickListener(v -> pause());
 
         next = (ImageButton) findViewById(R.id.next);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    startService(Action.NEXT);
-                    enablePlayPauseButton(PlayPauseButtonState.PAUSE);
-                }
+        next.setOnClickListener(v -> {
+            if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                startService(Action.NEXT);
+                enablePlayPauseButton(PlayPauseButtonState.PAUSE);
             }
         });
 
         previous = (ImageButton) findViewById(R.id.previous);
 
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    startService(Action.PREVIOUS);
-                    enablePlayPauseButton(PlayPauseButtonState.PAUSE);
-                }
+        previous.setOnClickListener(v -> {
+            if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                startService(Action.PREVIOUS);
+                enablePlayPauseButton(PlayPauseButtonState.PAUSE);
             }
         });
 
@@ -376,7 +360,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         next.setEnabled(false);
         previous.setEnabled(false);
 
-        final TextView textViews[] = new TextView[] {
+        final TextView[] textViews = new TextView[] {
                 currentAlbum, currentTrackName, currentTrackArtist, currentTrackDuration, currentTrackCurrentPosition
         };
 
@@ -937,22 +921,19 @@ public class PlayActivity extends Activity implements PlaybackController {
             trackListView.setAdapter(trackArrayAdapter);
             trackArrayAdapter.addAll(this.mediaPlaybackData.getMediaList());
 
-            trackListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                        PlayActivity.this.position = new Position(position, 0);
+            trackListView.setOnItemClickListener((parent, view, position1, id) -> {
+                if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    PlayActivity.this.position = new Position(position1, 0);
 
-                        enablePlayPauseButton(PlayPauseButtonState.PAUSE);
+                    enablePlayPauseButton(PlayPauseButtonState.PAUSE);
 
-                        next.setEnabled(true);
-                        previous.setEnabled(true);
+                    next.setEnabled(true);
+                    previous.setEnabled(true);
 
-                        startService(Action.PLAY);
+                    startService(Action.PLAY);
 
-                        next.setEnabled(position < mediaPlaybackData.getMediaList().size() - 1);
-                        previous.setEnabled(position > 0);
-                    }
+                    next.setEnabled(position1 < mediaPlaybackData.getMediaList().size() - 1);
+                    previous.setEnabled(position1 > 0);
                 }
             });
 

@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -49,27 +49,21 @@ public class ScanFoldersPreference extends DialogPreference {
 
         final Button removeAll = (Button) view.findViewById(R.id.removeAll);
 
-        removeAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Set<String> scanFolderPaths = new HashSet<>();
+        removeAll.setOnClickListener(v -> {
+            final Set<String> scanFolderPaths = new HashSet<>();
 
-                final ScanFoldersArrayAdapter scanFoldersArrayAdapter = new ScanFoldersArrayAdapter(getContext(), R.id.Title);
-                scanFolders.setAdapter(scanFoldersArrayAdapter);
-                scanFoldersArrayAdapter.addAll(scanFolderPaths);
+            final ScanFoldersArrayAdapter scanFoldersArrayAdapter = new ScanFoldersArrayAdapter(getContext(), R.id.Title);
+            scanFolders.setAdapter(scanFoldersArrayAdapter);
+            scanFoldersArrayAdapter.addAll(scanFolderPaths);
 
-                Preferences.putScanFolderPaths(getContext(), scanFolderPaths);
-            }
+            Preferences.putScanFolderPaths(getContext(), scanFolderPaths);
         });
 
         final Button pickFolder = (Button) view.findViewById(R.id.pickFolder);
 
-        pickFolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(), FolderPickerActivity.class);
-                v.getContext().startActivity(intent);
-            }
+        pickFolder.setOnClickListener(v -> {
+            final Intent intent = new Intent(v.getContext(), FolderPickerActivity.class);
+            v.getContext().startActivity(intent);
         });
 
         scanFolders = (ListView) view.findViewById(R.id.scanFolders);
@@ -78,12 +72,7 @@ public class ScanFoldersPreference extends DialogPreference {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
 
-        onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                updateScanFolders();
-            }
-        };
+        onSharedPreferenceChangeListener = (sharedPreferences, key) -> updateScanFolders();
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     }

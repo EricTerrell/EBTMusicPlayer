@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -61,39 +61,33 @@ public class LicenseTermsActivity extends Activity {
 
         Button okButton = (Button) findViewById(R.id.OKButton);
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final boolean userAcceptedTerms = acceptLicenseTerms.isChecked();
+        okButton.setOnClickListener(v -> {
+            final boolean userAcceptedTerms = acceptLicenseTerms.isChecked();
 
-                Preferences.putUserAcceptedTerms(LicenseTermsActivity.this, userAcceptedTerms);
+            Preferences.putUserAcceptedTerms(LicenseTermsActivity.this, userAcceptedTerms);
 
-                if (!userAcceptedTerms) {
-                    AlertDialog.Builder userRejectedTermsDialogBuilder = new AlertDialog.Builder(LicenseTermsActivity.this);
-                    userRejectedTermsDialogBuilder.setTitle(String.format("Rejected %s License Terms", getString(R.string.app_name)));
-                    userRejectedTermsDialogBuilder.setMessage(String.format("You rejected the %s license terms. Please uninstall %s immediately.", getString(R.string.app_name), getString(R.string.app_name)));
-                    userRejectedTermsDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            alertDialog.dismiss();
+            if (!userAcceptedTerms) {
+                AlertDialog.Builder userRejectedTermsDialogBuilder = new AlertDialog.Builder(LicenseTermsActivity.this);
+                userRejectedTermsDialogBuilder.setTitle(String.format("Rejected %s License Terms", getString(R.string.app_name)));
+                userRejectedTermsDialogBuilder.setMessage(String.format("You rejected the %s license terms. Please uninstall %s immediately.", getString(R.string.app_name), getString(R.string.app_name)));
+                userRejectedTermsDialogBuilder.setPositiveButton("OK", (dialog, which) -> {
+                    alertDialog.dismiss();
 
-                            finish();
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra(StringLiterals.EXIT, true);
-                            startActivity(intent);
-                        }
-                    });
-
-                    userRejectedTermsDialogBuilder.setCancelable(false);
-
-                    alertDialog = userRejectedTermsDialogBuilder.create();
-                    alertDialog.show();
-                }
-                else {
                     finish();
-                }
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(StringLiterals.EXIT, true);
+                    startActivity(intent);
+                });
+
+                userRejectedTermsDialogBuilder.setCancelable(false);
+
+                alertDialog = userRejectedTermsDialogBuilder.create();
+                alertDialog.show();
+            }
+            else {
+                finish();
             }
         });
     }

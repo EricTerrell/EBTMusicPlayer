@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -64,54 +64,45 @@ public class FolderPickerActivity extends Activity {
 
         currentFolder = (TextView) findViewById(R.id.currentFolder);
 
-        folderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                enable(false);
+        folderListView.setOnItemClickListener((parent, view, position, id) -> {
+            enable(false);
 
-                final String itemText = (String) parent.getItemAtPosition(position);
-                final String filePath = currentFolder.getText().toString() + itemText;
+            final String itemText = (String) parent.getItemAtPosition(position);
+            final String filePath = currentFolder.getText().toString() + itemText;
 
-                try {
-                    update(new File(filePath));
+            try {
+                update(new File(filePath));
 
-                    currentFolder.setText(filePath + StringLiterals.ROOT_PATH);
-                } catch (Exception ex) {
-                    ExceptionLogger.logException(ex, FolderPickerActivity.this);
-                }
+                currentFolder.setText(filePath + StringLiterals.ROOT_PATH);
+            } catch (Exception ex) {
+                ExceptionLogger.logException(ex, FolderPickerActivity.this);
             }
         });
 
         up = (Button) findViewById(R.id.up);
 
-        up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File file = new File(currentFolder.getText().toString());
+        up.setOnClickListener(v -> {
+            File file = new File(currentFolder.getText().toString());
 
-                try {
-                    update(file.getParentFile());
-                    currentFolder.setText((file.getParentFile().getAbsolutePath() + StringLiterals.ROOT_PATH).replace("//", StringLiterals.ROOT_PATH));
-                } catch (Exception ex) {
-                    ExceptionLogger.logException(ex, FolderPickerActivity.this);
-                }
+            try {
+                update(file.getParentFile());
+                currentFolder.setText((file.getParentFile().getAbsolutePath() + StringLiterals.ROOT_PATH).replace("//", StringLiterals.ROOT_PATH));
+            } catch (Exception ex) {
+                ExceptionLogger.logException(ex, FolderPickerActivity.this);
             }
         });
 
         selectCurrentFolder = (Button) findViewById(R.id.selectCurrentFolder);
 
-        selectCurrentFolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Set<String> scanFolderPaths = Preferences.getScanFolderPaths(getApplicationContext());
+        selectCurrentFolder.setOnClickListener(v -> {
+            final Set<String> scanFolderPaths = Preferences.getScanFolderPaths(getApplicationContext());
 
-                final Set<String> newSet = new HashSet<>(scanFolderPaths);
-                newSet.add(currentFolder.getText().toString());
+            final Set<String> newSet = new HashSet<>(scanFolderPaths);
+            newSet.add(currentFolder.getText().toString());
 
-                Preferences.putScanFolderPaths(getApplicationContext(), newSet);
+            Preferences.putScanFolderPaths(getApplicationContext(), newSet);
 
-                finish();
-            }
+            finish();
         });
 
         update(new File(currentFolder.getText().toString()));

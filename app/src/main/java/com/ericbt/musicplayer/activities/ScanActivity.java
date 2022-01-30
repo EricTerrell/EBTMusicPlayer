@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -70,36 +70,25 @@ public class ScanActivity extends Activity {
 
         settingsButton = (Button) findViewById(R.id.settings);
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ScanActivity.this, SettingsActivity.class));
-            }
-        });
+        settingsButton.setOnClickListener(v -> startActivity(new Intent(ScanActivity.this, SettingsActivity.class)));
 
         scanButton = (Button) findViewById(R.id.scan);
 
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanButton.setEnabled(false);
-                cancelButton.setEnabled(true);
-                settingsButton.setEnabled(false);
-                progressBar.setEnabled(true);
+        scanButton.setOnClickListener(v -> {
+            scanButton.setEnabled(false);
+            cancelButton.setEnabled(true);
+            settingsButton.setEnabled(false);
+            progressBar.setEnabled(true);
 
-                scannerService.scan(ScanActivity.this);
-            }
+            scannerService.scan(ScanActivity.this);
         });
 
         cancelButton = (Button) findViewById(R.id.cancel);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelButton.setEnabled(false);
-                progressBar.setEnabled(false);
-                scannerService.requestScanCancellation();
-            }
+        cancelButton.setOnClickListener(v -> {
+            cancelButton.setEnabled(false);
+            progressBar.setEnabled(false);
+            scannerService.requestScanCancellation();
         });
 
         statusText = (TextView) findViewById(R.id.statusText);

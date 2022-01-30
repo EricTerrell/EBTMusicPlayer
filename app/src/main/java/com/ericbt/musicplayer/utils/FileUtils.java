@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -147,11 +147,9 @@ public class FileUtils {
 
 		MediaScannerConnection.scanFile(context,
 				new String[] { filePath }, null,
-				new MediaScannerConnection.OnScanCompletedListener() {
-					public void onScanCompleted(String path, Uri uri) {
-						logger.log("FileUtils.canFile: Scanned " + path + ":");
-						logger.log("-> uri=" + uri);
-					}
+				(path, uri) -> {
+					logger.log("FileUtils.canFile: Scanned " + path + ":");
+					logger.log("-> uri=" + uri);
 				});
 	}
 }

@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -259,44 +259,36 @@ public class MusicPlayerService extends BaseService {
     private void setCompletionListener(final MediaPlayer mediaPlayer) {
         logger.log(String.format(LocaleUtils.getDefaultLocale(), "MusicPlayerService.setOnCompletionListener thread id: %d", Thread.currentThread().getId()));
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(final MediaPlayer mediaPlayer) {
-                threadPool.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        logger.log(String.format(LocaleUtils.getDefaultLocale(), "MusicPlayerService.setOnCompletionListener run() thread id: %d", Thread.currentThread().getId()));
+        mediaPlayer.setOnCompletionListener(mediaPlayer1 -> threadPool.submit(() -> {
+            logger.log(String.format(LocaleUtils.getDefaultLocale(), "MusicPlayerService.setOnCompletionListener run() thread id: %d", Thread.currentThread().getId()));
 
-                        synchronized (threadUnsafeVariables) {
-                            logger.log("MusicPlayerService.setOnCompletionListener run() - inside of synchronized block");
+            synchronized (threadUnsafeVariables) {
+                logger.log("MusicPlayerService.setOnCompletionListener run() - inside of synchronized block");
 
-                            if (threadUnsafeVariables.getPosition().getListIndex() + 1 < mediaPlaybackData.getMediaList().size()) {
-                                threadUnsafeVariables.getPosition().setListIndex(threadUnsafeVariables.getPosition().getListIndex() + 1);
+                if (threadUnsafeVariables.getPosition().getListIndex() + 1 < mediaPlaybackData.getMediaList().size()) {
+                    threadUnsafeVariables.getPosition().setListIndex(threadUnsafeVariables.getPosition().getListIndex() + 1);
 
-                                threadUnsafeVariables.setMediaPlayerWrapper(new MediaPlayerWrapper(MusicPlayerService.this, threadUnsafeVariables.getMediaPlayerWrapper().getNextMediaPlayer()));
+                    threadUnsafeVariables.setMediaPlayerWrapper(new MediaPlayerWrapper(MusicPlayerService.this, threadUnsafeVariables.getMediaPlayerWrapper().getNextMediaPlayer()));
 
-                                try {
-                                    updatePlayNotification(mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()));
+                    try {
+                        updatePlayNotification(mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()));
 
-                                    logger.log("Releasing MediaPlayer");
-                                    mediaPlayer.release();
+                        logger.log("Releasing MediaPlayer");
+                        mediaPlayer1.release();
 
-                                    setupNextTrack();
+                        setupNextTrack();
 
-                                    sendCurrentTrackMessage();
-                                } catch (Exception ex) {
-                                    ExceptionLogger.logException(ex, MusicPlayerService.this);
-                                }
-                            } else {
-                                releaseMediaPlayer();
-
-                                sendLastTrackCompletedMessage();
-                            }
-                        }
+                        sendCurrentTrackMessage();
+                    } catch (Exception ex) {
+                        ExceptionLogger.logException(ex, MusicPlayerService.this);
                     }
-                });
+                } else {
+                    releaseMediaPlayer();
+
+                    sendLastTrackCompletedMessage();
+                }
             }
-        });
+        }));
     }
 
     private void setupNextTrack() {
@@ -326,23 +318,15 @@ public class MusicPlayerService extends BaseService {
     }
 
     private void setOnErrorListener(final MediaPlayer mediaPlayer) {
-        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                Log.e(StringLiterals.LOG_TAG, String.format("MediaPlayer onError what: %d extra: %d", what, extra));
+        mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+            Log.e(StringLiterals.LOG_TAG, String.format("MediaPlayer onError what: %d extra: %d", what, extra));
 
-                return false;
-            }
+            return false;
         });
     }
 
     private void setOnPreparedListener(final MediaPlayer mediaPlayer) {
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                logger.log(String.format("OnPreparedListener: %s", mediaPlayer));
-            }
-        });
+        mediaPlayer.setOnPreparedListener(mp -> logger.log(String.format("OnPreparedListener: %s", mediaPlayer)));
     }
 
     public void sendCurrentTrackMessage() {
@@ -440,59 +424,53 @@ public class MusicPlayerService extends BaseService {
     }
 
     public void play() {
-        threadPool.submit(new Runnable() {
-            @Override
-            public void run() {
-                logger.log("MusicPlayerService.play run()");
+        threadPool.submit(() -> {
+            logger.log("MusicPlayerService.play run()");
 
-                synchronized (threadUnsafeVariables) {
-                    logger.log("MusicPlayerService.play run() inside synchronized block");
+            synchronized (threadUnsafeVariables) {
+                logger.log("MusicPlayerService.play run() inside synchronized block");
 
-                    logger.log(String.format(LocaleUtils.getDefaultLocale(), "MusicPlayerService.play thread id: %d", Thread.currentThread().getId()));
+                logger.log(String.format(LocaleUtils.getDefaultLocale(), "MusicPlayerService.play thread id: %d", Thread.currentThread().getId()));
 
-                    releaseMediaPlayer();
+                releaseMediaPlayer();
 
-                    final String mediaFilePath = mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()).getFilePath();
+                final String mediaFilePath = mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()).getFilePath();
 
-                    final MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(mediaFilePath));
+                final MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(mediaFilePath));
 
-                    if (mediaPlayer != null) {
-                        threadUnsafeVariables.setMediaPlayerWrapper(new MediaPlayerWrapper(MusicPlayerService.this, mediaPlayer));
+                if (mediaPlayer != null) {
+                    threadUnsafeVariables.setMediaPlayerWrapper(new MediaPlayerWrapper(MusicPlayerService.this, mediaPlayer));
 
-                        logger.log(String.format(LocaleUtils.getDefaultLocale(), "Creating MediaPlayer duration: %d %s", threadUnsafeVariables.getMediaPlayerWrapper().getDuration(), mediaFilePath));
+                    logger.log(String.format(LocaleUtils.getDefaultLocale(), "Creating MediaPlayer duration: %d %s", threadUnsafeVariables.getMediaPlayerWrapper().getDuration(), mediaFilePath));
 
-                        setCompletionListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
-                        setOnErrorListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
-                        setOnPreparedListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
+                    setCompletionListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
+                    setOnErrorListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
+                    setOnPreparedListener(threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer());
 
-                        setupNextTrack();
+                    setupNextTrack();
 
-                        threadUnsafeVariables.getMediaPlayerWrapper().seekTo(threadUnsafeVariables.getPosition().getPositionInTrack());
-                        threadUnsafeVariables.getMediaPlayerWrapper().start();
+                    threadUnsafeVariables.getMediaPlayerWrapper().seekTo(threadUnsafeVariables.getPosition().getPositionInTrack());
+                    threadUnsafeVariables.getMediaPlayerWrapper().start();
 
-                        sendCurrentTrackMessage();
+                    sendCurrentTrackMessage();
 
-                        updatePlayNotification(mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()));
-                    } else {
-                        displayErrorMessage(mediaFilePath);
-                    }
+                    updatePlayNotification(mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()));
+                } else {
+                    displayErrorMessage(mediaFilePath);
                 }
             }
         });
     }
 
     public void seekTo(final int newPosition) {
-        threadPool.submit(new Runnable() {
-            @Override
-            public void run() {
-                logger.log("MusicPlayerService.seekTo");
+        threadPool.submit(() -> {
+            logger.log("MusicPlayerService.seekTo");
 
-                synchronized (threadUnsafeVariables) {
-                    if (threadUnsafeVariables.getMediaPlayerWrapper() != null) {
-                        threadUnsafeVariables.getMediaPlayerWrapper().pause();
-                        threadUnsafeVariables.getMediaPlayerWrapper().seekTo(newPosition);
-                        threadUnsafeVariables.getMediaPlayerWrapper().start();
-                    }
+            synchronized (threadUnsafeVariables) {
+                if (threadUnsafeVariables.getMediaPlayerWrapper() != null) {
+                    threadUnsafeVariables.getMediaPlayerWrapper().pause();
+                    threadUnsafeVariables.getMediaPlayerWrapper().seekTo(newPosition);
+                    threadUnsafeVariables.getMediaPlayerWrapper().start();
                 }
             }
         });

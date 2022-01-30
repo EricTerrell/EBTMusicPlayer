@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -89,12 +89,7 @@ public class ScanTask implements Runnable
         finally {
             scannerService.setIsScanning(false);
 
-            scanActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    scanActivity.updateUIWhenScanCompleteOrCancelled(scanActivity.getString(R.string.scan_complete));
-                }
-            });
+            scanActivity.runOnUiThread(() -> scanActivity.updateUIWhenScanCompleteOrCancelled(scanActivity.getString(R.string.scan_complete)));
         }
     }
 }

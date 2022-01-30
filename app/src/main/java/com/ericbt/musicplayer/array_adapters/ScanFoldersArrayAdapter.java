@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -63,16 +63,13 @@ public class ScanFoldersArrayAdapter<T> extends ArrayAdapter<String> {
 
         final ImageView trash = (ImageView) convertView.findViewById(R.id.trash);
 
-        trash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Set<String> folderPaths = Preferences.getScanFolderPaths(view.getContext());
+        trash.setOnClickListener(view -> {
+            final Set<String> folderPaths = Preferences.getScanFolderPaths(view.getContext());
 
-                final Set<String> newFolderPaths = new HashSet<>(folderPaths);
-                newFolderPaths.remove(folderPath);
+            final Set<String> newFolderPaths = new HashSet<>(folderPaths);
+            newFolderPaths.remove(folderPath);
 
-                Preferences.putScanFolderPaths(view.getContext(), newFolderPaths);
-            }
+            Preferences.putScanFolderPaths(view.getContext(), newFolderPaths);
         });
 
         return convertView;

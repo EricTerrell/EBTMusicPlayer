@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -53,12 +53,9 @@ public class RetrieveRecentlyPlayedDataTask implements Runnable
             if (DBUtils.databaseExists(context)) {
                 final List<RecentlyPlayedData> results = new RecentlyPlayedManager(context, logger).getRecentlyPlayedData(null, ROWS);
 
-                recentlyPlayedActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Refresh list
-                        recentlyPlayedActivity.refreshListView(results);
-                    }
+                recentlyPlayedActivity.runOnUiThread(() -> {
+                    // Refresh list
+                    recentlyPlayedActivity.refreshListView(results);
                 });
             }
         } catch (Exception ex) {

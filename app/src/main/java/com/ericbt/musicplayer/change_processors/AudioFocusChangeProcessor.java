@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -52,29 +52,26 @@ public class AudioFocusChangeProcessor {
     }
 
     private AudioManager.OnAudioFocusChangeListener createOnAudioFocusChangedListener() {
-        return new AudioManager.OnAudioFocusChangeListener() {
-            @Override
-            public void onAudioFocusChange(int focusChange) {
-                logger.log(String.format(Locale.US, "onAudioFocusChange focusChange = %d isPaused = %b", focusChange, playbackController.isProgramaticallyPaused()));
+        return focusChange -> {
+            logger.log(String.format(Locale.US, "onAudioFocusChange focusChange = %d isPaused = %b", focusChange, playbackController.isProgramaticallyPaused()));
 
-                switch(focusChange) {
-                    case AUDIOFOCUS_LOSS:
-                    case AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    case AUDIOFOCUS_LOSS_TRANSIENT: {
-                        if (!playbackController.isProgramaticallyPaused()) {
-                            boolean isPaused = playbackController.pause();
-                            playbackController.setIsProgramaticallyPaused(isPaused);
-                        }
+            switch(focusChange) {
+                case AUDIOFOCUS_LOSS:
+                case AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                case AUDIOFOCUS_LOSS_TRANSIENT: {
+                    if (!playbackController.isProgramaticallyPaused()) {
+                        boolean isPaused = playbackController.pause();
+                        playbackController.setIsProgramaticallyPaused(isPaused);
                     }
-                    break;
-
-                    case AUDIOFOCUS_GAIN: {
-                        if (playbackController.isProgramaticallyPaused()) {
-                            playbackController.play(false);
-                        }
-                    }
-                    break;
                 }
+                break;
+
+                case AUDIOFOCUS_GAIN: {
+                    if (playbackController.isProgramaticallyPaused()) {
+                        playbackController.play(false);
+                    }
+                }
+                break;
             }
         };
     }

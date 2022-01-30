@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="(C) Copyright 2021, Eric Bergman-Terrell"
+            android:text="(C) Copyright 2022, Eric Bergman-Terrell"
             android:textColor="?android:attr/textColorPrimary" />
 
         <TextView

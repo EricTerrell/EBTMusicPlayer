@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -45,12 +45,9 @@ public class RetrieveMusicLibraryCountsTask implements Runnable
             if (DBUtils.databaseExists(context)) {
                 final MusicLibraryCounts musicLibraryCounts = MusicLibrary.retrieveCounts(context);
 
-                aboutActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Refresh list
-                        aboutActivity.updateCounts(musicLibraryCounts);
-                    }
+                aboutActivity.runOnUiThread(() -> {
+                    // Refresh list
+                    aboutActivity.updateCounts(musicLibraryCounts);
                 });
             }
         } catch (Exception ex) {

@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -62,12 +62,9 @@ public class RetrieveTracksTask implements Runnable
                 position.setPositionInTrack(savedPosition.getPositionInTrack());
             }
 
-            playActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // Refresh list
-                    playActivity.refreshTrackList(mediaPlaybackData, position);
-                }
+            playActivity.runOnUiThread(() -> {
+                // Refresh list
+                playActivity.refreshTrackList(mediaPlaybackData, position);
             });
         } catch (Exception ex) {
             ExceptionLogger.logException(ex, playActivity);

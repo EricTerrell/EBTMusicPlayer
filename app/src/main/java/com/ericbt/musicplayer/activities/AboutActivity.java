@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -56,27 +56,21 @@ public class AboutActivity extends Activity {
 
         final Button clearLogFile = (Button) findViewById(R.id.clearLogFile);
 
-        clearLogFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Logger.getLogFilePath(AboutActivity.this).delete();
-                } catch (Throwable ex) {
-                    ExceptionLogger.logException(ex, AboutActivity.this);
-                }
+        clearLogFile.setOnClickListener(v -> {
+            try {
+                Logger.getLogFilePath(AboutActivity.this).delete();
+            } catch (Throwable ex) {
+                ExceptionLogger.logException(ex, AboutActivity.this);
             }
         });
 
         final Button licenseTerms = (Button) findViewById(R.id.licenseTerms);
 
-        licenseTerms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(AboutActivity.this, LicenseTermsActivity.class);
-                intent.putExtra(StringLiterals.ALLOW_CANCEL, true);
+        licenseTerms.setOnClickListener(v -> {
+            final Intent intent = new Intent(AboutActivity.this, LicenseTermsActivity.class);
+            intent.putExtra(StringLiterals.ALLOW_CANCEL, true);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         statistics = (LinearLayout) findViewById(R.id.statistics);

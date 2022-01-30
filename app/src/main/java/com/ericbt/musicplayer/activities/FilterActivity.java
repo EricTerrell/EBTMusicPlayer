@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -64,15 +64,12 @@ public class FilterActivity extends Activity {
 
         itemsList = (ListView) findViewById(R.id.itemsList);
 
-        itemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String filterText = (String) parent.getAdapter().getItem(position);
+        itemsList.setOnItemClickListener((parent, view, position, id) -> {
+            final String filterText = (String) parent.getAdapter().getItem(position);
 
-                Preferences.putFilterData(FilterActivity.this, filterCategory, filterText);
+            Preferences.putFilterData(FilterActivity.this, filterCategory, filterText);
 
-                finish();
-            }
+            finish();
         });
 
         final Spinner filterSpinner = (Spinner) findViewById(R.id.filterSpinner);

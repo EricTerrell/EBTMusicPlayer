@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -125,32 +125,24 @@ public class MainActivity extends Activity {
 
             search = (Button) findViewById(R.id.search);
 
-            search.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
-                }
-            });
+            search.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
 
             mediaListView = (ListView) findViewById(R.id.mediaListView);
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-            onSharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                    logger = new Logger(MainActivity.this);
+            onSharedPreferenceChangeListener = (sharedPreferences, key) -> {
+                logger = new Logger(MainActivity.this);
 
-                    if (key.endsWith("_tab")) {
-                        tabHost.clearAllTabs();
-                        tabHost.setup();
+                if (key.endsWith("_tab")) {
+                    tabHost.clearAllTabs();
+                    tabHost.setup();
 
-                        addVisibleTabs();
+                    addVisibleTabs();
 
-                        refreshMediaListView();
-                    } else if (key.equals("scroll_prefix_length")) {
-                        refreshMediaListView();
-                    }
+                    refreshMediaListView();
+                } else if (key.equals("scroll_prefix_length")) {
+                    refreshMediaListView();
                 }
             };
 
@@ -160,61 +152,48 @@ public class MainActivity extends Activity {
 
             clear = findViewById(R.id.clear);
 
-            clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    refreshMediaListView();
-                }
-            });
+            clear.setOnClickListener(v -> refreshMediaListView());
 
             play = findViewById(R.id.play);
 
-            play.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final ArrayList<String> ids = new ArrayList<>();
+            play.setOnClickListener(v -> {
+                final ArrayList<String> ids = new ArrayList<>();
 
-                    for (int i = 0; i < mediaListView.getAdapter().getCount(); i++) {
-                        Media item = (Media) mediaListView.getAdapter().getItem(i);
+                for (int i = 0; i < mediaListView.getAdapter().getCount(); i++) {
+                    Media item = (Media) mediaListView.getAdapter().getItem(i);
 
-                        if (item.isChecked()) {
-                            ids.add(String.valueOf(item.getId()));
-                        }
+                    if (item.isChecked()) {
+                        ids.add(String.valueOf(item.getId()));
                     }
+                }
 
-                    if (!ids.isEmpty()) {
-                        final String tag = tabHost.getCurrentTabTag();
+                if (!ids.isEmpty()) {
+                    final String tag = tabHost.getCurrentTabTag();
 
-                        switch (tag) {
-                            case ALBUMS_INDICATOR: {
-                                startPlayActivity(PLAY_ALBUM, ids);
-                            }
-                            break;
-
-                            case PLAYLISTS_INDICATOR: {
-                                startPlayActivity(PLAY_PLAYLIST, ids);
-                            }
-                            break;
-
-                            case TRACKS_INDICATOR: {
-                                startPlayActivity(PLAY_TRACK, ids);
-                            }
-                            break;
+                    switch (tag) {
+                        case ALBUMS_INDICATOR: {
+                            startPlayActivity(PLAY_ALBUM, ids);
                         }
-                    } else {
-                        startActivity(new Intent(MainActivity.this, PlayTipsActivity.class));
+                        break;
+
+                        case PLAYLISTS_INDICATOR: {
+                            startPlayActivity(PLAY_PLAYLIST, ids);
+                        }
+                        break;
+
+                        case TRACKS_INDICATOR: {
+                            startPlayActivity(PLAY_TRACK, ids);
+                        }
+                        break;
                     }
+                } else {
+                    startActivity(new Intent(MainActivity.this, PlayTipsActivity.class));
                 }
             });
 
             filter = findViewById(R.id.filter);
 
-            filter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivityForResult(new Intent(MainActivity.this, FilterActivity.class), FILTER);
-                }
-            });
+            filter.setOnClickListener(v -> startActivityForResult(new Intent(MainActivity.this, FilterActivity.class), FILTER));
 
             sharedPreferences.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
 
@@ -250,14 +229,11 @@ public class MainActivity extends Activity {
             tabHost.setCurrentTab(currentTab);
         }
 
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                Preferences.putCurrentTab(MainActivity.this, tabHost.getCurrentTab());
-                Preferences.putFirstVisibleItem(MainActivity.this, 0);
+        tabHost.setOnTabChangedListener(tabId -> {
+            Preferences.putCurrentTab(MainActivity.this, tabHost.getCurrentTab());
+            Preferences.putFirstVisibleItem(MainActivity.this, 0);
 
-                refreshMediaListView();
-            }
+            refreshMediaListView();
         });
     }
 
@@ -412,27 +388,21 @@ public class MainActivity extends Activity {
         mediaListView.setAdapter(albumArrayAdapter);
         albumArrayAdapter.addAll(albums.getMedia());
 
-        mediaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final ArrayList<String> ids = new ArrayList<>();
-                ids.add(String.valueOf(id));
+        mediaListView.setOnItemClickListener((parent, view, position, id) -> {
+            final ArrayList<String> ids = new ArrayList<>();
+            ids.add(String.valueOf(id));
 
-                startPlayActivity(PLAY_ALBUM, ids);
-            }
+            startPlayActivity(PLAY_ALBUM, ids);
         });
 
-        mediaListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final Media item = (Media) mediaListView.getItemAtPosition(position);
+        mediaListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            final Media item = (Media) mediaListView.getItemAtPosition(position);
 
-                item.setChecked(!item.isChecked());
+            item.setChecked(!item.isChecked());
 
-                albumArrayAdapter.notifyDataSetChanged();
+            albumArrayAdapter.notifyDataSetChanged();
 
-                return true;
-            }
+            return true;
         });
 
         recordScrollPosition();
@@ -446,14 +416,11 @@ public class MainActivity extends Activity {
         mediaListView.setAdapter(playListArrayAdapter);
         playListArrayAdapter.addAll(playLists.getMedia());
 
-        mediaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final ArrayList<String> ids = new ArrayList<>();
-                ids.add(String.valueOf(id));
+        mediaListView.setOnItemClickListener((parent, view, position, id) -> {
+            final ArrayList<String> ids = new ArrayList<>();
+            ids.add(String.valueOf(id));
 
-                startPlayActivity(PLAY_PLAYLIST, ids);
-            }
+            startPlayActivity(PLAY_PLAYLIST, ids);
         });
 
         mediaListView.setOnItemLongClickListener((parent, view, position, id) -> {

@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -78,19 +78,16 @@ public class SearchActivity extends Activity {
 
         search = (Button) findViewById(R.id.search);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isSearchInProgress = true;
+        search.setOnClickListener(v -> {
+            isSearchInProgress = true;
 
-                final SearchHitArrayAdapter searchHitArrayAdapter = new SearchHitArrayAdapter(getApplicationContext(), R.id.Title, SearchActivity.this);
-                searchHitsListView.setAdapter(searchHitArrayAdapter);
-                searchHitArrayAdapter.addAll(new ArrayList<SearchHit>());
+            final SearchHitArrayAdapter searchHitArrayAdapter = new SearchHitArrayAdapter(getApplicationContext(), R.id.Title, SearchActivity.this);
+            searchHitsListView.setAdapter(searchHitArrayAdapter);
+            searchHitArrayAdapter.addAll(new ArrayList<SearchHit>());
 
-                enable(false);
+            enable(false);
 
-                AsyncTask.submit(new SearchTask(SearchActivity.this, SearchActivity.this, searchText.getText().toString().trim().toUpperCase()));
-            }
+            AsyncTask.submit(new SearchTask(SearchActivity.this, SearchActivity.this, searchText.getText().toString().trim().toUpperCase()));
         });
 
         search.setEnabled(!searchText.getEditableText().toString().trim().isEmpty());
@@ -111,39 +108,36 @@ public class SearchActivity extends Activity {
         });
         searchHitsListView = (ListView) findViewById(R.id.searchHitsListView);
 
-        searchHitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchHit searchHit = (SearchHit) parent.getItemAtPosition(position);
+        searchHitsListView.setOnItemClickListener((parent, view, position, id) -> {
+            SearchHit searchHit = (SearchHit) parent.getItemAtPosition(position);
 
-                ArrayList<String> ids = new ArrayList<>();
-                ids.add(String.valueOf(searchHit.getId()));
+            ArrayList<String> ids = new ArrayList<>();
+            ids.add(String.valueOf(searchHit.getId()));
 
-                switch(searchHit.getType()) {
-                    case ALBUM: {
-                        final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
-                        intent.setAction(PLAY_ALBUM);
-                        intent.putExtra(IDS, ids);
-                        startActivity(intent);
-                    }
-                    break;
-
-                    case PLAYLIST: {
-                        final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
-                        intent.setAction(PLAY_PLAYLIST);
-                        intent.putExtra(IDS, ids);
-                        startActivity(intent);
-                    }
-                    break;
-
-                    case TRACK: {
-                        final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
-                        intent.setAction(PLAY_TRACK);
-                        intent.putExtra(IDS, ids);
-                        startActivity(intent);
-                    }
-                    break;
+            switch(searchHit.getType()) {
+                case ALBUM: {
+                    final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
+                    intent.setAction(PLAY_ALBUM);
+                    intent.putExtra(IDS, ids);
+                    startActivity(intent);
                 }
+                break;
+
+                case PLAYLIST: {
+                    final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
+                    intent.setAction(PLAY_PLAYLIST);
+                    intent.putExtra(IDS, ids);
+                    startActivity(intent);
+                }
+                break;
+
+                case TRACK: {
+                    final Intent intent = new Intent(SearchActivity.this, PlayActivity.class);
+                    intent.setAction(PLAY_TRACK);
+                    intent.putExtra(IDS, ids);
+                    startActivity(intent);
+                }
+                break;
             }
         });
 

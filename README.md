@@ -24,7 +24,7 @@ Key Features:
 
 # Copyright
 
-EBT Music Player &#169; Copyright 2021, [`Eric Bergman-Terrell`](https://www.ericbt.com)
+EBT Music Player &#169; Copyright 2022, [`Eric Bergman-Terrell`](https://www.ericbt.com)
 
 # Screenshots
 

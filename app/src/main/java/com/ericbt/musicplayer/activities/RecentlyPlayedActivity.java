@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -64,29 +64,26 @@ public class RecentlyPlayedActivity extends Activity {
 
         recentlyPlayedListView = (ListView) findViewById(R.id.recentlyPlayedListView);
 
-        recentlyPlayedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                RecentlyPlayedData recentlyPlayedData = (RecentlyPlayedData) parent.getAdapter().getItem(position);
+        recentlyPlayedListView.setOnItemClickListener((parent, view, position, id) -> {
+            RecentlyPlayedData recentlyPlayedData = (RecentlyPlayedData) parent.getAdapter().getItem(position);
 
-                RecentlyPlayedActivity.this.finish();
+            RecentlyPlayedActivity.this.finish();
 
-                final Intent intent = new Intent(RecentlyPlayedActivity.this, PlayActivity.class);
+            final Intent intent = new Intent(RecentlyPlayedActivity.this, PlayActivity.class);
 
-                intent
-                        .setAction(recentlyPlayedData.getAction())
-                        .putExtra(SELECTED_TRACK, recentlyPlayedData.getTrackOrdinalPosition())
-                        .putExtra(POSITION_IN_TRACK, recentlyPlayedData.getPositionInTrack());
+            intent
+                    .setAction(recentlyPlayedData.getAction())
+                    .putExtra(SELECTED_TRACK, recentlyPlayedData.getTrackOrdinalPosition())
+                    .putExtra(POSITION_IN_TRACK, recentlyPlayedData.getPositionInTrack());
 
-                final List<String> idList = Arrays.asList(recentlyPlayedData.getIds().split(","));
+            final List<String> idList = Arrays.asList(recentlyPlayedData.getIds().split(","));
 
-                final ArrayList idArrayList = new ArrayList<>(idList.size());
-                idArrayList.addAll(idList);
+            final ArrayList idArrayList = new ArrayList<>(idList.size());
+            idArrayList.addAll(idList);
 
-                intent.putStringArrayListExtra(IDS, idArrayList);
+            intent.putStringArrayListExtra(IDS, idArrayList);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
         AsyncTask.submit(new RetrieveRecentlyPlayedDataTask(getApplicationContext(), this, logger));

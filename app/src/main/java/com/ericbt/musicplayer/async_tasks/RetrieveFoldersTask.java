@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -98,12 +98,9 @@ public class RetrieveFoldersTask implements Runnable
 
             Collections.sort(subFolders, new StringComparitor());
 
-            folderPickerActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // Refresh list
-                    folderPickerActivity.update(folder, subFolders);
-                }
+            folderPickerActivity.runOnUiThread(() -> {
+                // Refresh list
+                folderPickerActivity.update(folder, subFolders);
             });
         } catch (Exception ex) {
             ExceptionLogger.logException(ex, folderPickerActivity);

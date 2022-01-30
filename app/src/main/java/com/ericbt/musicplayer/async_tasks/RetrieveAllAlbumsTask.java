@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -46,13 +46,10 @@ public class RetrieveAllAlbumsTask implements Runnable
             if (DBUtils.databaseExists(context)) {
                 final MediaList<Album> mediaList = MusicLibrary.retrieveAlbums(context, false);
 
-                mainActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Refresh list
-                        mainActivity.enable(true);
-                        mainActivity.refreshAlbums(mediaList);
-                    }
+                mainActivity.runOnUiThread(() -> {
+                    // Refresh list
+                    mainActivity.enable(true);
+                    mainActivity.refreshAlbums(mediaList);
                 });
             }
         } catch (Exception ex) {

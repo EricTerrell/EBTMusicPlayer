@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -48,13 +48,10 @@ public class SearchTask implements Runnable
         try {
             final List<SearchHit> searchHits = MusicLibrary.retrieveSearchHits(context, searchText);
 
-            searchActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // Refresh list
-                    searchActivity.enable(true);
-                    searchActivity.refreshSearchHits(searchHits);
-                }
+            searchActivity.runOnUiThread(() -> {
+                // Refresh list
+                searchActivity.enable(true);
+                searchActivity.refreshSearchHits(searchHits);
             });
         } catch (Exception ex) {
             ExceptionLogger.logException(ex, context);

@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -93,13 +93,10 @@ public class SearchHitArrayAdapter extends ArrayAdapter<SearchHit> {
 
         info.setVisibility(searchHit.getType().equals(SearchHit.SearchHitType.TRACK) ? View.VISIBLE : View.INVISIBLE);
 
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, MediaFileMetadataActivity.class);
-                intent.putExtras(searchHit.getTrack().toBundle());
-                activity.startActivity(intent);
-            }
+        info.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MediaFileMetadataActivity.class);
+            intent.putExtras(searchHit.getTrack().toBundle());
+            activity.startActivity(intent);
         });
 
         return convertView;

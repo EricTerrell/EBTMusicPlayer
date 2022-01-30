@@ -1,6 +1,6 @@
 /*
   EBT Music Player
-  (C) Copyright 2021, Eric Bergman-Terrell
+  (C) Copyright 2022, Eric Bergman-Terrell
 
   This file is part of EBT Music Player.
 
@@ -42,12 +42,9 @@ public class RetrieveAllFilterCategoryValues implements Runnable
         try {
             final List<String> filterCategoryValues = MusicLibrary.retrieveAllFilterCategoryValues(filterActivity, filterCategory);
 
-            filterActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    // Refresh list
-                    filterActivity.refresh(filterCategoryValues, filterCategory);
-                }
+            filterActivity.runOnUiThread(() -> {
+                // Refresh list
+                filterActivity.refresh(filterCategoryValues, filterCategory);
             });
         } catch (Exception ex) {
             ExceptionLogger.logException(ex, filterActivity);

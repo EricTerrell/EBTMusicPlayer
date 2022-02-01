@@ -37,6 +37,8 @@ import java.util.concurrent.Executors;
 import static android.app.Notification.FLAG_FOREGROUND_SERVICE;
 import static android.app.Notification.FLAG_ONGOING_EVENT;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 public abstract class BaseService extends Service {
     protected IBinder binder = null;
 
@@ -54,6 +56,8 @@ public abstract class BaseService extends Service {
 
     private NotificationChannel notificationChannel;
 
+    protected LocalBroadcastManager localBroadcastManager;
+
     public BaseService() {
         className = this.getClass().getName();
     }
@@ -65,6 +69,8 @@ public abstract class BaseService extends Service {
         logger.log(String.format(LocaleUtils.getDefaultLocale(), "%s.onCreate, thread id: %d", className, Thread.currentThread().getId()));
 
         super.onCreate();
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
     }
 
     @Override
@@ -116,7 +122,7 @@ public abstract class BaseService extends Service {
         final Intent intent = new Intent();
         intent.setAction(message);
 
-        sendBroadcast(intent);
+        localBroadcastManager.sendBroadcast(intent);
     }
 
     protected void createNotificationChannel(String channelDescription) {

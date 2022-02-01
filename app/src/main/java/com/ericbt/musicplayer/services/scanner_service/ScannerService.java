@@ -101,7 +101,7 @@ public class ScannerService extends BaseService {
                 .putExtra(CustomBroadcastReceiver.MESSAGE, message)
                 .putExtra(CustomBroadcastReceiver.PROGRESS_PERCENT, progressPercent);
 
-        sendBroadcast(intent);
+        localBroadcastManager.sendBroadcast(intent);
 
         updateScanNotification(message);
     }

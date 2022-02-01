@@ -35,6 +35,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.ericbt.musicplayer.StringLiterals;
 import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
 import com.ericbt.musicplayer.R;
@@ -54,6 +56,8 @@ public class ScanActivity extends Activity {
 
     private ProgressBar progressBar;
 
+    private LocalBroadcastManager localBroadcastManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         DebugUtils.enableStrictMode(this);
@@ -61,6 +65,8 @@ public class ScanActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_scan);
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -154,14 +160,14 @@ public class ScanActivity extends Activity {
         intentFilter.addAction(CustomBroadcastReceiver.SCAN_COMPLETE);
         intentFilter.addAction(CustomBroadcastReceiver.SCAN_CANCELLED);
 
-        registerReceiver(scanBroadcastReceiver, intentFilter);
+        localBroadcastManager.registerReceiver(scanBroadcastReceiver, intentFilter);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        unregisterReceiver(scanBroadcastReceiver);
+        localBroadcastManager.unregisterReceiver(scanBroadcastReceiver);
     }
 
     @Override

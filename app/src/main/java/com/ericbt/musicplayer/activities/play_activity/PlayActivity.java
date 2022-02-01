@@ -78,6 +78,8 @@ import java.util.List;
 import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
 import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 public class PlayActivity extends Activity implements PlaybackController {
     public static final String PLAY_ALBUM = "PLAY_ALBUM";
     public static final String PLAY_PLAYLIST = "PLAY_PLAYLIST";
@@ -137,6 +139,8 @@ public class PlayActivity extends Activity implements PlaybackController {
     
     private Logger logger;
 
+    private LocalBroadcastManager localBroadcastManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         logger = new Logger(this);
@@ -151,6 +155,8 @@ public class PlayActivity extends Activity implements PlaybackController {
         customPhoneStateListener = new CustomPhoneStateListener(this, this);
 
         setContentView(R.layout.activity_play);
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -301,7 +307,7 @@ public class PlayActivity extends Activity implements PlaybackController {
 
         super.onDestroy();
 
-        unregisterReceiver(customBroadcastReceiver);
+        localBroadcastManager.unregisterReceiver(customBroadcastReceiver);
 
         telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
 
@@ -577,7 +583,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         intentFilter.addAction(CustomBroadcastReceiver.PAUSE);
         intentFilter.addAction(CustomBroadcastReceiver.TICK);
 
-        registerReceiver(customBroadcastReceiver, intentFilter);
+        localBroadcastManager.registerReceiver(customBroadcastReceiver, intentFilter);
 
         return customBroadcastReceiver;
     }

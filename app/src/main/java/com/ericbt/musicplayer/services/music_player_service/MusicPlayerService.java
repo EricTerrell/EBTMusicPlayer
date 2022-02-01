@@ -343,7 +343,7 @@ public class MusicPlayerService extends BaseService {
             logger.log(String.format(LocaleUtils.getDefaultLocale(), "sendCurrentTrackMessage Track: %d", threadUnsafeVariables.getPosition().getListIndex()));
         }
 
-        sendBroadcast(intent);
+        localBroadcastManager.sendBroadcast(intent);
     }
 
     private void sendLastTrackCompletedMessage() {
@@ -572,7 +572,7 @@ public class MusicPlayerService extends BaseService {
 
                         intent.putExtra(CustomBroadcastReceiver.CURRENT_POSITION, trackProgress.getCurrentPosition());
 
-                        sendBroadcast(intent);
+                        localBroadcastManager.sendBroadcast(intent);
 
                         if (timerCount.getAndIncrement() % 15 == 0) {
                             final RecentlyPlayedManager recentlyPlayedManager = new RecentlyPlayedManager(MusicPlayerService.this, logger);

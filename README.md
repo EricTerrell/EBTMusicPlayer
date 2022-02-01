@@ -8,6 +8,7 @@ EBT Music Player plays MP3 and FLAC music files.
 
 Key Features:
 
+* Handles __huge__ music collections flawlessly! The author's offline music collection is about 2,000 ripped CDs, 1,400 playlists, and 30,000 tracks. EBT Music Player handles it perfectly.
 * Plays MP3, FLAC, AAC, and OGG media files
 * Gapless playback
 * Optional automatic play/pause when wired headset or bluetooth device connected/disconnected
@@ -45,8 +46,7 @@ EBT Music Player &#169; Copyright 2022, [`Eric Bergman-Terrell`](https://www.eri
 # Links
 
 * [`website`](https://ericbt.com/)
-* [`Google Play (App)`](https://play.google.com/store/apps/details?id=com.ericbt.musicplayer)
-* [`Google Play (Unlocker)`](https://play.google.com/store/apps/details?id=com.ericbt.musicplayerunlocker)
+* [`Google Play`](https://play.google.com/store/apps/details?id=com.ericbt.musicplayer)
 * [`GitHub Repo`](https://github.com/EricTerrell/EBTMusicPlayer)
 
 # How to Build

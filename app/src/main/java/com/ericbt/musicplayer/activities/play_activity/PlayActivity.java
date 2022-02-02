@@ -38,7 +38,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -110,7 +109,7 @@ public class PlayActivity extends Activity implements PlaybackController {
 
     private Position pausePosition;
 
-    private CustomBroadcastReceiver customBroadcastReceiver;
+    private CustomBroadcastReceiver customBroadcastReceiver, connectDisconnectBroadcastReceiver;
 
     private int selectedTrack = -1;
 
@@ -136,10 +135,10 @@ public class PlayActivity extends Activity implements PlaybackController {
     private boolean isPlaybackFinished, isProgramaticallyPaused;
 
     private TelephonyManager telephonyManager;
-    
-    private Logger logger;
 
     private LocalBroadcastManager localBroadcastManager;
+
+    private Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,6 +266,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         bluetoothChangeProcessor = new BluetoothChangeProcessor(this);
 
         customBroadcastReceiver = createCustomBroadcastReceiver();
+        connectDisconnectBroadcastReceiver = createConnectDisconnectBroadcastReceiver();
 
         telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
@@ -308,6 +308,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         super.onDestroy();
 
         localBroadcastManager.unregisterReceiver(customBroadcastReceiver);
+        unregisterReceiver(connectDisconnectBroadcastReceiver);
 
         telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
 
@@ -512,30 +513,6 @@ public class PlayActivity extends Activity implements PlaybackController {
                         }
                         break;
 
-                        case Intent.ACTION_HEADSET_PLUG: {
-                            headphonePlugChangeProcessor.processChange(intent, PlayActivity.this);
-                        }
-                        break;
-
-                        case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED: {
-                            final int connectionState = intent.getIntExtra(EXTRA_CONNECTION_STATE, -1);
-                            final int prevConnectionState = intent.getIntExtra(EXTRA_PREVIOUS_CONNECTION_STATE, -1);
-                            final BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                            logger.log(String.format(LocaleUtils.getDefaultLocale(),
-                                    "BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED connectionState: %d prevConnectionState: %d bluetoothDevice name: %s address: %s bond state: %d",
-                                    connectionState,
-                                    prevConnectionState,
-                                    bluetoothDevice.getName(),
-                                    bluetoothDevice.getAddress(),
-                                    bluetoothDevice.getBondState()
-                            ));
-
-                            bluetoothChangeProcessor.processChange(intent, PlayActivity.this);
-                        }
-                        break;
-
-                        case AudioManager.ACTION_AUDIO_BECOMING_NOISY:
                         case CustomBroadcastReceiver.PAUSE: {
                             pause();
                         }
@@ -561,7 +538,6 @@ public class PlayActivity extends Activity implements PlaybackController {
 
                             currentTrackSeekBar.setProgress(currentPosition);
                             currentTrackCurrentPosition.setText(TimeFormatter.toHHMMSS(currentPosition));
-
                         }
                         break;
                     }
@@ -573,19 +549,69 @@ public class PlayActivity extends Activity implements PlaybackController {
 
         final IntentFilter intentFilter = new IntentFilter(CustomBroadcastReceiver.CURRENT_TRACK);
         intentFilter.addAction(CustomBroadcastReceiver.LAST_TRACK_PLAYED);
-        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
-        intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
-        intentFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         intentFilter.addAction(CustomBroadcastReceiver.PLAY_PAUSE);
         intentFilter.addAction(CustomBroadcastReceiver.NEXT);
         intentFilter.addAction(CustomBroadcastReceiver.PREVIOUS);
-        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
         intentFilter.addAction(CustomBroadcastReceiver.PAUSE);
         intentFilter.addAction(CustomBroadcastReceiver.TICK);
 
         localBroadcastManager.registerReceiver(customBroadcastReceiver, intentFilter);
 
         return customBroadcastReceiver;
+    }
+
+    private CustomBroadcastReceiver createConnectDisconnectBroadcastReceiver() {
+        logger.log("PlayActivity.createConnectDisconnectBroadcastReceiver");
+
+        final CustomBroadcastReceiver connectDisconnectBroadcastReceiver = new CustomBroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                logger.log(String.format("PlayActivity onReceive action: %s isInitialStickyBroadcast: %b", intent.getAction(), isInitialStickyBroadcast()));
+
+                if (!isInitialStickyBroadcast()) {
+                    switch (intent.getAction()) {
+                        case Intent.ACTION_HEADSET_PLUG: {
+                            headphonePlugChangeProcessor.processChange(intent, PlayActivity.this);
+                        }
+                        break;
+
+                        case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED: {
+                            final int connectionState = intent.getIntExtra(EXTRA_CONNECTION_STATE, -1);
+                            final int prevConnectionState = intent.getIntExtra(EXTRA_PREVIOUS_CONNECTION_STATE, -1);
+                            final BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                            logger.log(String.format(LocaleUtils.getDefaultLocale(),
+                                    "BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED connectionState: %d prevConnectionState: %d bluetoothDevice name: %s address: %s bond state: %d",
+                                    connectionState,
+                                    prevConnectionState,
+                                    bluetoothDevice.getName(),
+                                    bluetoothDevice.getAddress(),
+                                    bluetoothDevice.getBondState()
+                            ));
+
+                            bluetoothChangeProcessor.processChange(intent, PlayActivity.this);
+                        }
+                        break;
+
+                        case AudioManager.ACTION_AUDIO_BECOMING_NOISY: {
+                            pause();
+                        }
+                        break;
+                    }
+                }
+
+                logger.log("PlayActivity onReceive end");
+            }
+        };
+
+        final IntentFilter intentFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
+        intentFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
+
+        registerReceiver(connectDisconnectBroadcastReceiver, intentFilter);
+
+        return connectDisconnectBroadcastReceiver;
     }
 
     private void processCurrentTrack(Intent intent) {

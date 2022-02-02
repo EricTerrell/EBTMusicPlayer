@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/drawable/list_item_border.xml" value="0.184" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_folder_picker.xml" value="0.190625" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_specify_folders.xml" value="0.121875" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/scan_folders_preference.xml" value="0.28854166666666664" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />

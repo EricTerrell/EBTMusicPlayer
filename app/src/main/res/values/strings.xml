@@ -16,7 +16,6 @@
         <item>3</item>
     </string-array>
 
-    <string name="title_activity_specify_folders">Specify Folders</string>
     <string name="title_activity_filter">Filter</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_about">About EBT Music Player</string>
@@ -33,7 +32,6 @@
     <string name="scan_complete">Scan complete</string>
     <string name="scan_cancelled">Scan cancelled</string>
     <string name="title_activity_play_tips">Play Tips</string>
-    <string name="upgrading_database">Upgrading Database</string>
 
     <string name="license_terms">EBT Music Player
 (C) Copyright 2022

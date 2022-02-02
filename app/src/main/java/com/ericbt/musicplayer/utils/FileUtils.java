@@ -22,7 +22,6 @@ package com.ericbt.musicplayer.utils;
 
 import android.content.Context;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.util.Log;
 
 import com.ericbt.musicplayer.StringLiterals;

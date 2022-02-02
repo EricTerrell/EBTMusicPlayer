@@ -67,10 +67,6 @@
             android:label="@string/title_activity_folder_picker" />
 
         <activity
-            android:name=".activities.SpecifyFoldersActivity"
-            android:label="@string/title_activity_specify_folders" />
-
-        <activity
             android:name=".activities.SearchActivity"
             android:label="@string/title_activity_search" />
 

@@ -78,7 +78,6 @@ import java.util.List;
 import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
 import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
-import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class PlayActivity extends Activity implements PlaybackController {
@@ -855,7 +854,7 @@ public class PlayActivity extends Activity implements PlaybackController {
 
                 mediaSession.setCallback(new MediaSession.Callback() {
                     @Override
-                    public boolean onMediaButtonEvent(@NonNull Intent mediaButtonIntent) {
+                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
                         if (StringLiterals.MEDIA_BUTTON.equals(mediaButtonIntent.getAction())) {
                             logger.log(String.format("onMediaButtonEvent action: %s", mediaButtonIntent.getAction()));
 
@@ -866,15 +865,27 @@ public class PlayActivity extends Activity implements PlaybackController {
                                 final int keyCode = event.getKeyCode();
                                 logger.log(String.format("keyCode: %d", keyCode));
 
-                                if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE ||
-                                        keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-                                    playOrPause();
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
-                                    pause();
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
-                                    next();
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
-                                    previous();
+                                switch(keyCode) {
+                                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                                    case KeyEvent.KEYCODE_MEDIA_PLAY: {
+                                        playOrPause();
+                                    }
+                                    break;
+
+                                    case KeyEvent.KEYCODE_MEDIA_STOP: {
+                                        pause();
+                                    }
+                                    break;
+
+                                    case KeyEvent.KEYCODE_MEDIA_NEXT: {
+                                        next();
+                                    }
+                                    break;
+
+                                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS: {
+                                        previous();
+                                    }
+                                    break;
                                 }
                             }
                         }

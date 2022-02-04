@@ -35,4 +35,5 @@ public class StringLiterals {
     public static final String OK                  = "OK";
     public static final String CANCEL              = "Cancel";
     public static final String REQUEST_PERMISSIONS = "Request Permissions";
+    public static final String MEDIA_BUTTON        = "android.intent.action.MEDIA_BUTTON";
 }

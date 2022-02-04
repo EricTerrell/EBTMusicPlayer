@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -77,6 +78,7 @@ import java.util.List;
 import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
 import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class PlayActivity extends Activity implements PlaybackController {
@@ -159,17 +161,17 @@ public class PlayActivity extends Activity implements PlaybackController {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        trackListView = (ListView) findViewById(R.id.trackListView);
+        trackListView = findViewById(R.id.trackListView);
 
-        play = (ImageButton) findViewById(R.id.play);
+        play = findViewById(R.id.play);
 
         play.setOnClickListener(v -> play(true));
 
-        pause = (ImageButton) findViewById(R.id.pause);
+        pause = findViewById(R.id.pause);
 
         pause.setOnClickListener(v -> pause());
 
-        next = (ImageButton) findViewById(R.id.next);
+        next = findViewById(R.id.next);
 
         next.setOnClickListener(v -> {
             if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -178,7 +180,7 @@ public class PlayActivity extends Activity implements PlaybackController {
             }
         });
 
-        previous = (ImageButton) findViewById(R.id.previous);
+        previous = findViewById(R.id.previous);
 
         previous.setOnClickListener(v -> {
             if (AudioUtils.requestAudioFocus(audioManager, audioFocusChangeProcessor, logger) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -187,13 +189,13 @@ public class PlayActivity extends Activity implements PlaybackController {
             }
         });
 
-        currentAlbum = (TextView) findViewById(R.id.currentAlbum);
-        currentTrackName = (TextView) findViewById(R.id.currentTrackName);
-        currentTrackArtist = (TextView) findViewById(R.id.currentTrackArtist);
+        currentAlbum = findViewById(R.id.currentAlbum);
+        currentTrackName = findViewById(R.id.currentTrackName);
+        currentTrackArtist = findViewById(R.id.currentTrackArtist);
 
-        currentTrackCurrentPosition = (TextView) findViewById(R.id.currentTrackCurrentPosition);
-        currentTrackDuration = (TextView) findViewById(R.id.currentTrackDuration);
-        currentTrackSeekBar = (SeekBar) findViewById(R.id.currentTrackSeekBar);
+        currentTrackCurrentPosition = findViewById(R.id.currentTrackCurrentPosition);
+        currentTrackDuration = findViewById(R.id.currentTrackDuration);
+        currentTrackSeekBar = findViewById(R.id.currentTrackSeekBar);
 
         logger.log(String.format("PlayActivity.onCreate: have savedInstanceState: %b", savedInstanceState != null));
 
@@ -607,7 +609,6 @@ public class PlayActivity extends Activity implements PlaybackController {
         final IntentFilter intentFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
         intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
 
         registerReceiver(connectDisconnectBroadcastReceiver, intentFilter);
 
@@ -850,8 +851,37 @@ public class PlayActivity extends Activity implements PlaybackController {
                 }
 
                 final MediaSession mediaSession = new MediaSession(getApplicationContext(), "tag");
-                mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
                 mediaSession.setActive(true);
+
+                mediaSession.setCallback(new MediaSession.Callback() {
+                    @Override
+                    public boolean onMediaButtonEvent(@NonNull Intent mediaButtonIntent) {
+                        if (StringLiterals.MEDIA_BUTTON.equals(mediaButtonIntent.getAction())) {
+                            logger.log(String.format("onMediaButtonEvent action: %s", mediaButtonIntent.getAction()));
+
+                            KeyEvent event = mediaButtonIntent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                            logger.log(String.format("event action: %d", event.getAction()));
+
+                            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                                final int keyCode = event.getKeyCode();
+                                logger.log(String.format("keyCode: %d", keyCode));
+
+                                if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE ||
+                                        keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                                    playOrPause();
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
+                                    pause();
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
+                                    next();
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
+                                    previous();
+                                }
+                            }
+                        }
+
+                        return super.onMediaButtonEvent(mediaButtonIntent);
+                    }
+                });
 
                 final PlaybackState.Builder stateBuilder = new PlaybackState.Builder();
 

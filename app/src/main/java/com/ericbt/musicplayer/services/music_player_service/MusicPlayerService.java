@@ -494,6 +494,12 @@ public class MusicPlayerService extends BaseService {
 
             releaseMediaPlayer();
 
+            if (mediaSession != null) {
+                mediaSession.release();
+
+                mediaSession = null;
+            }
+
             if (context != null && serviceConnection != null) {
                 try {
                     context.unbindService(serviceConnection);

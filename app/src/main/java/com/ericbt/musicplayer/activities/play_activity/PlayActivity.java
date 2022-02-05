@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -849,6 +850,53 @@ public class PlayActivity extends Activity implements PlaybackController {
                 }
 
                 final MediaSession mediaSession = new MediaSession(getApplicationContext(), "tag");
+
+                mediaSession.setCallback(new MediaSession.Callback() {
+                    @Override
+                    public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
+                        if (StringLiterals.MEDIA_BUTTON.equals(mediaButtonIntent.getAction())) {
+                            logger.log(String.format("onMediaButtonEvent action: %s", mediaButtonIntent.getAction()));
+
+                            KeyEvent event = mediaButtonIntent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                            logger.log(String.format("event action: %d", event.getAction()));
+
+                            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                                final int keyCode = event.getKeyCode();
+                                logger.log(String.format("keyCode: %d", keyCode));
+
+                                switch(keyCode) {
+                                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                                    case KeyEvent.KEYCODE_MEDIA_PLAY: {
+                                        playOrPause();
+
+                                        return true;
+                                    }
+
+                                    case KeyEvent.KEYCODE_MEDIA_STOP: {
+                                        pause();
+
+                                        return true;
+                                    }
+
+                                    case KeyEvent.KEYCODE_MEDIA_NEXT: {
+                                        next();
+
+                                        return true;
+                                    }
+
+                                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS: {
+                                        previous();
+
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+
+                        return super.onMediaButtonEvent(mediaButtonIntent);
+                    }
+                });
+
                 mediaSession.setActive(true);
 
                 final PlaybackState.Builder stateBuilder = new PlaybackState.Builder();

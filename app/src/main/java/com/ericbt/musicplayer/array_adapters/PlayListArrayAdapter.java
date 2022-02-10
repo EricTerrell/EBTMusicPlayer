@@ -53,10 +53,10 @@ public class PlayListArrayAdapter extends BaseArrayAdapter<PlayList> {
 
         final PlayList playList = getItem(position);
 
-        TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(playList.getFileName());
 
-        ImageView check = (ImageView) convertView.findViewById(R.id.check);
+        ImageView check = convertView.findViewById(R.id.check);
 
         check.setVisibility(playList.isChecked() ? View.VISIBLE : View.GONE);
 

@@ -58,10 +58,10 @@ public class ScanFoldersArrayAdapter<T> extends ArrayAdapter<String> {
 
         final String folderPath = getItem(position);
 
-        final TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        final TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(folderPath);
 
-        final ImageView trash = (ImageView) convertView.findViewById(R.id.trash);
+        final ImageView trash = convertView.findViewById(R.id.trash);
 
         trash.setOnClickListener(view -> {
             final Set<String> folderPaths = Preferences.getScanFolderPaths(view.getContext());

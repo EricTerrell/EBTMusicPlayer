@@ -122,11 +122,11 @@ public class MainActivity extends Activity {
         } else {
             setupTabs();
 
-            search = (Button) findViewById(R.id.search);
+            search = findViewById(R.id.search);
 
             search.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
 
-            mediaListView = (ListView) findViewById(R.id.mediaListView);
+            mediaListView = findViewById(R.id.mediaListView);
 
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 

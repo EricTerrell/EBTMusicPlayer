@@ -58,9 +58,9 @@ public class FolderPickerActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        folderListView = (ListView) findViewById(R.id.folderListView);
+        folderListView = findViewById(R.id.folderListView);
 
-        currentFolder = (TextView) findViewById(R.id.currentFolder);
+        currentFolder = findViewById(R.id.currentFolder);
 
         folderListView.setOnItemClickListener((parent, view, position, id) -> {
             enable(false);
@@ -77,7 +77,7 @@ public class FolderPickerActivity extends Activity {
             }
         });
 
-        up = (Button) findViewById(R.id.up);
+        up = findViewById(R.id.up);
 
         up.setOnClickListener(v -> {
             File file = new File(currentFolder.getText().toString());
@@ -90,7 +90,7 @@ public class FolderPickerActivity extends Activity {
             }
         });
 
-        selectCurrentFolder = (Button) findViewById(R.id.selectCurrentFolder);
+        selectCurrentFolder = findViewById(R.id.selectCurrentFolder);
 
         selectCurrentFolder.setOnClickListener(v -> {
             final Set<String> scanFolderPaths = Preferences.getScanFolderPaths(getApplicationContext());

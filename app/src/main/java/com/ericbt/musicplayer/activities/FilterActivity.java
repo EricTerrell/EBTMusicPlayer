@@ -62,7 +62,7 @@ public class FilterActivity extends Activity {
 
         filterCategory = Preferences.getFilterCategory(this);
 
-        itemsList = (ListView) findViewById(R.id.itemsList);
+        itemsList = findViewById(R.id.itemsList);
 
         itemsList.setOnItemClickListener((parent, view, position, id) -> {
             final String filterText = (String) parent.getAdapter().getItem(position);
@@ -72,7 +72,7 @@ public class FilterActivity extends Activity {
             finish();
         });
 
-        final Spinner filterSpinner = (Spinner) findViewById(R.id.filterSpinner);
+        final Spinner filterSpinner = findViewById(R.id.filterSpinner);
 
         final String[] filterValues = getResources().getStringArray(R.array.filter_values);
 

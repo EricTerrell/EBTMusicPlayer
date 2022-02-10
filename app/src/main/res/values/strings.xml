@@ -16,6 +16,9 @@
         <item>3</item>
     </string-array>
 
+    <string name="scan_exception">Scan Error:</string>
+    <string name="scan_not_complete">Scan Was Not Complete</string>
+
     <string name="title_activity_filter">Filter</string>
     <string name="title_activity_search">Search</string>
     <string name="title_activity_about">About EBT Music Player</string>

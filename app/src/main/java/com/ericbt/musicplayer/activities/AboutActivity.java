@@ -54,7 +54,7 @@ public class AboutActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Button clearLogFile = (Button) findViewById(R.id.clearLogFile);
+        final Button clearLogFile = findViewById(R.id.clearLogFile);
 
         clearLogFile.setOnClickListener(v -> {
             try {
@@ -64,7 +64,7 @@ public class AboutActivity extends Activity {
             }
         });
 
-        final Button licenseTerms = (Button) findViewById(R.id.licenseTerms);
+        final Button licenseTerms = findViewById(R.id.licenseTerms);
 
         licenseTerms.setOnClickListener(v -> {
             final Intent intent = new Intent(AboutActivity.this, LicenseTermsActivity.class);
@@ -73,12 +73,12 @@ public class AboutActivity extends Activity {
             startActivity(intent);
         });
 
-        statistics = (LinearLayout) findViewById(R.id.statistics);
+        statistics = findViewById(R.id.statistics);
 
-        final TextView version = (TextView) findViewById(R.id.version);
+        final TextView version = findViewById(R.id.version);
         version.setText(Version.getVersionName());
 
-        final TextView folder = (TextView) findViewById(R.id.folder);
+        final TextView folder = findViewById(R.id.folder);
         folder.setText(Logger.getLogFolder(this).toString());
 
         AsyncTask.submit(new RetrieveMusicLibraryCountsTask(this, this));
@@ -100,23 +100,23 @@ public class AboutActivity extends Activity {
     public void updateCounts(MusicLibraryCounts musicLibraryCounts) {
         statistics.setVisibility(View.VISIBLE);
 
-        final TextView albums = (TextView) findViewById(R.id.albums);
+        final TextView albums = findViewById(R.id.albums);
 
         albums.setText(String.format(LocaleUtils.getDefaultLocale(), "Albums: %,d", musicLibraryCounts.getAlbums()));
 
-        final TextView playLists = (TextView) findViewById(R.id.playlists);
+        final TextView playLists = findViewById(R.id.playlists);
 
         playLists.setText(String.format(LocaleUtils.getDefaultLocale(), "Playlists: %,d", musicLibraryCounts.getPlayLists()));
 
-        final TextView tracks = (TextView) findViewById(R.id.tracks);
+        final TextView tracks = findViewById(R.id.tracks);
 
         tracks.setText(String.format(LocaleUtils.getDefaultLocale(), "Tracks: %,d", musicLibraryCounts.getTracks()));
 
-        final TextView fileSize = (TextView) findViewById(R.id.fileSize);
+        final TextView fileSize = findViewById(R.id.fileSize);
 
         fileSize.setText(String.format(LocaleUtils.getDefaultLocale(), "File Size: %,d", musicLibraryCounts.getFileSize()));
 
-        final TextView duration = (TextView) findViewById(R.id.duration);
+        final TextView duration = findViewById(R.id.duration);
         duration.setText(String.format(LocaleUtils.getDefaultLocale(), "Duration: %s", TimeFormatter.toDaysHHMMSS(musicLibraryCounts.getDuration())));
     }
 }

@@ -53,7 +53,7 @@ public class FolderPickerArrayAdapter<T> extends ArrayAdapter<String> {
 
         final String folderPath = getItem(position);
 
-        final TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        final TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(folderPath);
 
         return convertView;

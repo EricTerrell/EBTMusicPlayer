@@ -20,6 +20,7 @@
 
 package com.ericbt.musicplayer.activities.play_activity;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -27,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
@@ -78,7 +80,7 @@ import java.util.List;
 import static android.bluetooth.BluetoothAdapter.EXTRA_CONNECTION_STATE;
 import static android.bluetooth.BluetoothAdapter.EXTRA_PREVIOUS_CONNECTION_STATE;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.core.app.ActivityCompat;
 
 public class PlayActivity extends Activity implements PlaybackController {
     public static final String PLAY_ALBUM = "PLAY_ALBUM";
@@ -94,7 +96,7 @@ public class PlayActivity extends Activity implements PlaybackController {
     private static final String IS_PLAYBACK_FINISHED = "IS_PLAYBACK_FINISHED";
     private static final String IS_PROGRAMATICALLY_PAUSED = "IS_PROGRAMATICALLY_PAUSED";
 
-    private enum PlayPauseButtonState { PLAY, PAUSE }
+    private enum PlayPauseButtonState {PLAY, PAUSE}
 
     public static final String IDS = "IDS";
 
@@ -137,8 +139,6 @@ public class PlayActivity extends Activity implements PlaybackController {
 
     private TelephonyManager telephonyManager;
 
-    private LocalBroadcastManager localBroadcastManager;
-
     private Logger logger;
 
     @Override
@@ -155,8 +155,6 @@ public class PlayActivity extends Activity implements PlaybackController {
         customPhoneStateListener = new CustomPhoneStateListener(this, this);
 
         setContentView(R.layout.activity_play);
-
-        localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -308,7 +306,7 @@ public class PlayActivity extends Activity implements PlaybackController {
 
         super.onDestroy();
 
-        localBroadcastManager.unregisterReceiver(customBroadcastReceiver);
+        unregisterReceiver(customBroadcastReceiver);
         unregisterReceiver(connectDisconnectBroadcastReceiver);
 
         telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
@@ -368,7 +366,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         next.setEnabled(false);
         previous.setEnabled(false);
 
-        final TextView[] textViews = new TextView[] {
+        final TextView[] textViews = new TextView[]{
                 currentAlbum, currentTrackName, currentTrackArtist, currentTrackDuration, currentTrackCurrentPosition
         };
 
@@ -556,7 +554,7 @@ public class PlayActivity extends Activity implements PlaybackController {
         intentFilter.addAction(CustomBroadcastReceiver.PAUSE);
         intentFilter.addAction(CustomBroadcastReceiver.TICK);
 
-        localBroadcastManager.registerReceiver(customBroadcastReceiver, intentFilter);
+        registerReceiver(customBroadcastReceiver, intentFilter);
 
         return customBroadcastReceiver;
     }
@@ -581,11 +579,17 @@ public class PlayActivity extends Activity implements PlaybackController {
                             final int prevConnectionState = intent.getIntExtra(EXTRA_PREVIOUS_CONNECTION_STATE, -1);
                             final BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+                            String bluetoothDeviceName = StringLiterals.EMPTY_STRING;
+
+                            if (ActivityCompat.checkSelfPermission(PlayActivity.this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                                bluetoothDeviceName = bluetoothDevice.getName();
+                            }
+
                             logger.log(String.format(LocaleUtils.getDefaultLocale(),
                                     "BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED connectionState: %d prevConnectionState: %d bluetoothDevice name: %s address: %s bond state: %d",
                                     connectionState,
                                     prevConnectionState,
-                                    bluetoothDevice.getName(),
+                                    bluetoothDeviceName,
                                     bluetoothDevice.getAddress(),
                                     bluetoothDevice.getBondState()
                             ));

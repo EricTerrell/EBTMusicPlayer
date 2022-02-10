@@ -53,10 +53,10 @@ public class TrackArrayAdapter extends BaseArrayAdapter<Track> {
 
         final Track track = getItem(position);
 
-        TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(track.getTitle());
 
-        ImageView check = (ImageView) convertView.findViewById(R.id.check);
+        ImageView check = convertView.findViewById(R.id.check);
 
         check.setVisibility(track.isChecked() ? View.VISIBLE : View.GONE);
 

@@ -53,10 +53,10 @@ public class AlbumArrayAdapter extends BaseArrayAdapter<Album> {
 
         final Album album = getItem(position);
 
-        TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(album.getAlbum());
 
-        ImageView check = (ImageView) convertView.findViewById(R.id.check);
+        ImageView check = convertView.findViewById(R.id.check);
 
         check.setVisibility(album.isChecked() ? View.VISIBLE : View.GONE);
 

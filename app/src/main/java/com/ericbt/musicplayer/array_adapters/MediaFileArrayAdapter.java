@@ -61,10 +61,10 @@ public class MediaFileArrayAdapter extends ArrayAdapter<Track> {
 
         final Track mediaFileDataForPlayList = getItem(position);
 
-        final TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        final TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(mediaFileDataForPlayList.getTitle());
 
-        final ImageView info = (ImageView) convertView.findViewById(R.id.info);
+        final ImageView info = convertView.findViewById(R.id.info);
 
         info.setOnClickListener(v -> {
             Intent intent = new Intent(context, MediaFileMetadataActivity.class);

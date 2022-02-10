@@ -74,7 +74,7 @@ public class MediaFileMetadataActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
+        final TableLayout tableLayout = findViewById(R.id.table);
 
         final Bundle bundle = getIntent().getExtras();
 

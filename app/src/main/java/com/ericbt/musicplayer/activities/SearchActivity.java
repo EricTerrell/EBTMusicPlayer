@@ -71,11 +71,11 @@ public class SearchActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        searchText = (EditText) findViewById(R.id.searchText);
+        searchText = findViewById(R.id.searchText);
 
-        noResultsFound = (TextView) findViewById(R.id.noResultsFound);
+        noResultsFound = findViewById(R.id.noResultsFound);
 
-        search = (Button) findViewById(R.id.search);
+        search = findViewById(R.id.search);
 
         search.setOnClickListener(v -> {
             isSearchInProgress = true;
@@ -105,7 +105,7 @@ public class SearchActivity extends Activity {
                 search.setEnabled(!s.toString().trim().isEmpty());
             }
         });
-        searchHitsListView = (ListView) findViewById(R.id.searchHitsListView);
+        searchHitsListView = findViewById(R.id.searchHitsListView);
 
         searchHitsListView.setOnItemClickListener((parent, view, position, id) -> {
             SearchHit searchHit = (SearchHit) parent.getItemAtPosition(position);

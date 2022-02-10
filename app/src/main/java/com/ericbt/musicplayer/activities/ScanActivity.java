@@ -26,6 +26,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -34,9 +36,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import com.ericbt.musicplayer.StringLiterals;
+import com.ericbt.musicplayer.Preferences;
 import com.ericbt.musicplayer.broadcast_receivers.CustomBroadcastReceiver;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.services.scanner_service.ScannerService;
@@ -55,7 +55,7 @@ public class ScanActivity extends Activity {
 
     private ProgressBar progressBar;
 
-    private LocalBroadcastManager localBroadcastManager;
+    private Drawable background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +65,17 @@ public class ScanActivity extends Activity {
 
         setContentView(R.layout.activity_scan);
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
-
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         startService();
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
-        settingsButton = (Button) findViewById(R.id.settings);
+        settingsButton = findViewById(R.id.settings);
 
         settingsButton.setOnClickListener(v -> startActivity(new Intent(ScanActivity.this, SettingsActivity.class)));
 
-        scanButton = (Button) findViewById(R.id.scan);
+        scanButton = findViewById(R.id.scan);
 
         scanButton.setOnClickListener(v -> {
             scanButton.setEnabled(false);
@@ -88,7 +86,7 @@ public class ScanActivity extends Activity {
             scannerService.scan(ScanActivity.this);
         });
 
-        cancelButton = (Button) findViewById(R.id.cancel);
+        cancelButton = findViewById(R.id.cancel);
 
         cancelButton.setOnClickListener(v -> {
             cancelButton.setEnabled(false);
@@ -96,7 +94,38 @@ public class ScanActivity extends Activity {
             scannerService.requestScanCancellation();
         });
 
-        statusText = (TextView) findViewById(R.id.statusText);
+        statusText = findViewById(R.id.statusText);
+        background = statusText.getBackground();
+
+        restoreStatusMessage();
+    }
+
+    private void restoreStatusMessage() {
+        final String message = Preferences.scanStatus(this);
+        statusText.setText(message);
+
+        final String scanException = getString(R.string.scan_exception);
+
+        if (statusText.getText().toString().contains(scanException)) {
+            statusText.setBackgroundColor(Color.RED);
+        } else {
+            statusText.setBackground(background);
+        }
+
+        final boolean isFinished = isFinished(message);
+
+        progressBar.setProgress(0);
+
+        cancelButton.setEnabled(!isFinished);
+        scanButton.setEnabled(isFinished);
+        settingsButton.setEnabled(isFinished);
+    }
+
+    private boolean isFinished(String statusText) {
+        return (statusText == null || statusText.trim().length() == 0) ||
+                statusText.equals(getString(R.string.scan_cancelled)) ||
+                statusText.equals(getString(R.string.scan_complete)) ||
+                statusText.contains(getString(R.string.scan_exception));
     }
 
     @Override
@@ -114,12 +143,22 @@ public class ScanActivity extends Activity {
         }
     }
 
-    public void updateUIWhenScanCompleteOrCancelled(String message) {
+    public void updateUIWhenScanCompleteOrCancelled(String message, boolean error) {
+        if (error) {
+            statusText.setBackgroundColor(Color.RED);
+        } else {
+            statusText.setBackground(background);
+        }
+
         statusText.setText(message);
 
         scanButton.setEnabled(true);
         cancelButton.setEnabled(false);
         settingsButton.setEnabled(true);
+    }
+
+    public void updateUIWhenScanCompleteOrCancelled(String message) {
+        updateUIWhenScanCompleteOrCancelled(message, false);
     }
 
     @Override
@@ -131,7 +170,9 @@ public class ScanActivity extends Activity {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case CustomBroadcastReceiver.SCAN_PROGRESS_MESSAGE: {
+                        statusText.setBackground(background);
                         statusText.setText(intent.getStringExtra(CustomBroadcastReceiver.MESSAGE));
+
                         final int progressPercent = intent.getIntExtra(CustomBroadcastReceiver.PROGRESS_PERCENT, 0);
 
                         progressBar.setProgress(progressPercent);
@@ -159,14 +200,14 @@ public class ScanActivity extends Activity {
         intentFilter.addAction(CustomBroadcastReceiver.SCAN_COMPLETE);
         intentFilter.addAction(CustomBroadcastReceiver.SCAN_CANCELLED);
 
-        localBroadcastManager.registerReceiver(scanBroadcastReceiver, intentFilter);
+        registerReceiver(scanBroadcastReceiver, intentFilter);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        localBroadcastManager.unregisterReceiver(scanBroadcastReceiver);
+        unregisterReceiver(scanBroadcastReceiver);
     }
 
     @Override
@@ -175,7 +216,7 @@ public class ScanActivity extends Activity {
 
         progressBar.setProgress(0);
 
-        updateUIWhenScanCompleteOrCancelled(StringLiterals.EMPTY_STRING);
+        restoreStatusMessage();
     }
 
     private boolean isScanInProgress() {

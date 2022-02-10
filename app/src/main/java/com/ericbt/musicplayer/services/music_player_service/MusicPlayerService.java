@@ -145,7 +145,7 @@ public class MusicPlayerService extends BaseService {
         final Intent intent = new Intent(getApplicationContext(), MusicPlayerService.class);
         intent.setAction(intentAction);
 
-        final PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
+        final PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, PendingIntent.FLAG_IMMUTABLE);
 
         return new NotificationCompat.Action.Builder(iconId, title, pendingIntent).build();
     }
@@ -167,7 +167,7 @@ public class MusicPlayerService extends BaseService {
     private Notification createPlayNotification(Track track) {
         logger.log(String.format("MusicPlayerService.createPlayNotification %s", track.getTitle()));
 
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, cachedIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, cachedIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         createNotificationChannel(PLAYBACK);
 
@@ -343,7 +343,7 @@ public class MusicPlayerService extends BaseService {
             logger.log(String.format(LocaleUtils.getDefaultLocale(), "sendCurrentTrackMessage Track: %d", threadUnsafeVariables.getPosition().getListIndex()));
         }
 
-        localBroadcastManager.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     private void sendLastTrackCompletedMessage() {
@@ -578,7 +578,7 @@ public class MusicPlayerService extends BaseService {
 
                         intent.putExtra(CustomBroadcastReceiver.CURRENT_POSITION, trackProgress.getCurrentPosition());
 
-                        localBroadcastManager.sendBroadcast(intent);
+                        sendBroadcast(intent);
 
                         if (timerCount.getAndIncrement() % 15 == 0) {
                             final RecentlyPlayedManager recentlyPlayedManager = new RecentlyPlayedManager(MusicPlayerService.this, logger);

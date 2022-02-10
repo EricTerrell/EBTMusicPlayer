@@ -29,6 +29,7 @@ import android.content.ServiceConnection;
 import android.os.Binder;
 import androidx.core.app.NotificationCompat;
 
+import com.ericbt.musicplayer.Preferences;
 import com.ericbt.musicplayer.R;
 import com.ericbt.musicplayer.StringLiterals;
 import com.ericbt.musicplayer.activities.ScanActivity;
@@ -70,7 +71,7 @@ public class ScannerService extends BaseService {
 
         final Intent notificationIntent = new Intent(this, ScanActivity.class);
 
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
         createNotificationChannel("Scanning");
 
@@ -101,9 +102,11 @@ public class ScannerService extends BaseService {
                 .putExtra(CustomBroadcastReceiver.MESSAGE, message)
                 .putExtra(CustomBroadcastReceiver.PROGRESS_PERCENT, progressPercent);
 
-        localBroadcastManager.sendBroadcast(intent);
+        sendBroadcast(intent);
 
         updateScanNotification(message);
+
+        Preferences.putScanStatus(this, message);
     }
 
     public void sendScanProgressMessage(String message) {
@@ -113,13 +116,19 @@ public class ScannerService extends BaseService {
     public void sendScanCompleteMessage() {
         sendMessage(CustomBroadcastReceiver.SCAN_COMPLETE);
 
-        updateScanNotification(getString(R.string.scan_complete));
+        final String message = getString(R.string.scan_complete);
+        updateScanNotification(message);
+
+        Preferences.putScanStatus(this, message);
     }
 
     public void sendScanCancelledMessage() {
         sendMessage(CustomBroadcastReceiver.SCAN_CANCELLED);
 
-        updateScanNotification(getString(R.string.scan_cancelled));
+        final String message = getString(R.string.scan_cancelled);
+        updateScanNotification(message);
+
+        Preferences.putScanStatus(this, message);
     }
 
     public void scan(ScanActivity scanActivity) {
@@ -145,5 +154,4 @@ public class ScannerService extends BaseService {
             return ScannerService.this;
         }
     }
-
 }

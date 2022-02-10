@@ -61,12 +61,12 @@ public class SearchHitArrayAdapter extends ArrayAdapter<SearchHit> {
 
         final SearchHit searchHit = getItem(position);
 
-        TextView textView = (TextView) convertView.findViewById(R.id.Title);
+        TextView textView = convertView.findViewById(R.id.Title);
         textView.setText(searchHit.getText());
 
-        final ImageView album = (ImageView) convertView.findViewById(R.id.album);
-        final ImageView playlist = (ImageView) convertView.findViewById(R.id.playlist);
-        final ImageView trackImageView = (ImageView) convertView.findViewById(R.id.track);
+        final ImageView album = convertView.findViewById(R.id.album);
+        final ImageView playlist = convertView.findViewById(R.id.playlist);
+        final ImageView trackImageView = convertView.findViewById(R.id.track);
 
         album.setVisibility(View.GONE);
         playlist.setVisibility(View.GONE);
@@ -89,7 +89,7 @@ public class SearchHitArrayAdapter extends ArrayAdapter<SearchHit> {
             break;
         }
 
-        final ImageView info = (ImageView) convertView.findViewById(R.id.info);
+        final ImageView info = convertView.findViewById(R.id.info);
 
         info.setVisibility(searchHit.getType().equals(SearchHit.SearchHitType.TRACK) ? View.VISIBLE : View.INVISIBLE);
 

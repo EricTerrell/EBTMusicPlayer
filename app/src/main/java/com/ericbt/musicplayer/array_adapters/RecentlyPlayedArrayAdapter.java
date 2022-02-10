@@ -54,7 +54,7 @@ public class RecentlyPlayedArrayAdapter extends ArrayAdapter<RecentlyPlayedData>
 
         final RecentlyPlayedData recentlyPlayedData = getItem(position);
 
-        final TextView albumAndTrack = (TextView) convertView.findViewById(R.id.AlbumAndTrack);
+        final TextView albumAndTrack = convertView.findViewById(R.id.AlbumAndTrack);
         albumAndTrack.setText(String.format("%s/%s", recentlyPlayedData.getAlbum(), recentlyPlayedData.getCurrentTrackName()));
 
         return convertView;

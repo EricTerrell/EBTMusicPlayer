@@ -89,10 +89,10 @@ public class FilterCategoryValuesArrayAdapter extends ArrayAdapter<String> imple
 
         final String text = getItem(position);
 
-        final TextView textView = (TextView) convertView.findViewById(R.id.text);
+        final TextView textView = convertView.findViewById(R.id.text);
         textView.setText(text);
 
-        final ImageView check = (ImageView) convertView.findViewById(R.id.check);
+        final ImageView check = convertView.findViewById(R.id.check);
 
         final boolean match = currentCategory && text != null && text.equals(currentValue);
 

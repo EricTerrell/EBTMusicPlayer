@@ -47,7 +47,7 @@ public class ScanFoldersPreference extends DialogPreference {
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        final Button removeAll = (Button) view.findViewById(R.id.removeAll);
+        final Button removeAll = view.findViewById(R.id.removeAll);
 
         removeAll.setOnClickListener(v -> {
             final Set<String> scanFolderPaths = new HashSet<>();
@@ -59,14 +59,14 @@ public class ScanFoldersPreference extends DialogPreference {
             Preferences.putScanFolderPaths(getContext(), scanFolderPaths);
         });
 
-        final Button pickFolder = (Button) view.findViewById(R.id.pickFolder);
+        final Button pickFolder = view.findViewById(R.id.pickFolder);
 
         pickFolder.setOnClickListener(v -> {
             final Intent intent = new Intent(v.getContext(), FolderPickerActivity.class);
             v.getContext().startActivity(intent);
         });
 
-        scanFolders = (ListView) view.findViewById(R.id.scanFolders);
+        scanFolders = view.findViewById(R.id.scanFolders);
 
         updateScanFolders();
 

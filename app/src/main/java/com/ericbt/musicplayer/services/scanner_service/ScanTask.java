@@ -85,11 +85,19 @@ public class ScanTask implements Runnable
 
             throwable.printStackTrace();
             ExceptionLogger.logException(throwable, scanActivity);
+
+            final String errorText =
+                    String.format("%s\n\n%s\n\n%s",
+                            scanActivity.getString(R.string.scan_exception),
+                            throwable.getMessage(),
+                            scanActivity.getString(R.string.scan_not_complete));
+
+            Preferences.putScanStatus(scannerService.getApplicationContext(), errorText);
+
+            scanActivity.runOnUiThread(() -> scanActivity.updateUIWhenScanCompleteOrCancelled(errorText, true));
         }
         finally {
             scannerService.setIsScanning(false);
-
-            scanActivity.runOnUiThread(() -> scanActivity.updateUIWhenScanCompleteOrCancelled(scanActivity.getString(R.string.scan_complete)));
         }
     }
 }

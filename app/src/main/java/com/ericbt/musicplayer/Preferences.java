@@ -39,6 +39,7 @@ public class Preferences {
 	private static final String FILTER_VALUE                 = "filter_value_key";
 	private static final String CURRENT_TAB_KEY              = "CURRENT_TAB_KEY";
     private static final String FIRST_VISIBLE_ITEM_KEY       = "FIRST_VISIBLE_ITEM_KEY";
+    private static final String SCAN_STATUS_KEY              = "SCAN_STATUS_KEY";
 
 	private static final Pattern SDCARD_PATH_REGEX = Pattern.compile("/storage/\\S\\S\\S\\S-\\S\\S\\S\\S/");
 
@@ -169,6 +170,22 @@ public class Preferences {
 		final SharedPreferences.Editor editor = sharedPreferences.edit();
 
 		editor.putBoolean(USER_ACCEPTED_TERMS_KEY, userAcceptedTerms);
+
+		editor.apply();
+	}
+
+	public static String scanStatus(Context context) {
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		return sharedPreferences.getString(SCAN_STATUS_KEY, StringLiterals.EMPTY_STRING);
+	}
+
+	public static void putScanStatus(Context context, String scanStatus) {
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+		final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+		editor.putString(SCAN_STATUS_KEY, scanStatus);
 
 		editor.apply();
 	}

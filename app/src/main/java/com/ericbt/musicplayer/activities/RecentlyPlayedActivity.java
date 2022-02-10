@@ -60,7 +60,7 @@ public class RecentlyPlayedActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recentlyPlayedListView = (ListView) findViewById(R.id.recentlyPlayedListView);
+        recentlyPlayedListView = findViewById(R.id.recentlyPlayedListView);
 
         recentlyPlayedListView.setOnItemClickListener((parent, view, position, id) -> {
             RecentlyPlayedData recentlyPlayedData = (RecentlyPlayedData) parent.getAdapter().getItem(position);

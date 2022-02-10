@@ -51,13 +51,13 @@ public class LicenseTermsActivity extends Activity {
         if (allowCancel) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        final RadioButton acceptLicenseTerms = (RadioButton) findViewById(R.id.AcceptLicenseTerms);
+        final RadioButton acceptLicenseTerms = findViewById(R.id.AcceptLicenseTerms);
         acceptLicenseTerms.setChecked(Preferences.userAcceptedTerms(this));
 
-        final RadioButton rejectLicenseTerms = (RadioButton) findViewById(R.id.RejectLicenseTerms);
+        final RadioButton rejectLicenseTerms = findViewById(R.id.RejectLicenseTerms);
         rejectLicenseTerms.setChecked(!Preferences.userAcceptedTerms(this));
 
-        Button okButton = (Button) findViewById(R.id.OKButton);
+        Button okButton = findViewById(R.id.OKButton);
 
         okButton.setOnClickListener(v -> {
             final boolean userAcceptedTerms = acceptLicenseTerms.isChecked();

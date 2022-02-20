@@ -4,8 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/drawable/list_item_border.xml" value="0.184" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_filter.xml" value="0.2625" />
         <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_folder_picker.xml" value="0.190625" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.2609375" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_media_file_metadata.xml" value="0.1765625" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_play.xml" value="0.10572916666666667" />
         <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/activity_specify_folders.xml" value="0.121875" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/filter_item.xml" value="0.10364583333333334" />
+        <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/recently_played_item.xml" value="0.2109375" />
         <entry key="..\:/Users/Eric Terrell/Documents/software development/MusicPlayer/app/src/main/res/layout/scan_folders_preference.xml" value="0.28854166666666664" />
       </map>
     </option>

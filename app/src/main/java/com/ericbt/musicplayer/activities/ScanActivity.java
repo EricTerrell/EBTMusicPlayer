@@ -100,17 +100,20 @@ public class ScanActivity extends Activity {
         restoreStatusMessage();
     }
 
-    private void restoreStatusMessage() {
-        final String message = Preferences.scanStatus(this);
-        statusText.setText(message);
-
-        final String scanException = getString(R.string.scan_exception);
-
-        if (statusText.getText().toString().contains(scanException)) {
+    private void setStatusText(String text, boolean error) {
+        if (error) {
             statusText.setBackgroundColor(Color.RED);
         } else {
             statusText.setBackground(background);
         }
+
+        statusText.setText(text);
+    }
+
+    private void restoreStatusMessage() {
+        final String message = Preferences.scanStatus(this);
+
+        setStatusText(message, message.contains(getString(R.string.scan_exception)));
 
         final boolean isFinished = isFinished(message);
 
@@ -144,13 +147,7 @@ public class ScanActivity extends Activity {
     }
 
     public void updateUIWhenScanCompleteOrCancelled(String message, boolean error) {
-        if (error) {
-            statusText.setBackgroundColor(Color.RED);
-        } else {
-            statusText.setBackground(background);
-        }
-
-        statusText.setText(message);
+        setStatusText(message, error);
 
         scanButton.setEnabled(true);
         cancelButton.setEnabled(false);
@@ -170,8 +167,7 @@ public class ScanActivity extends Activity {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case CustomBroadcastReceiver.SCAN_PROGRESS_MESSAGE: {
-                        statusText.setBackground(background);
-                        statusText.setText(intent.getStringExtra(CustomBroadcastReceiver.MESSAGE));
+                        setStatusText(intent.getStringExtra(CustomBroadcastReceiver.MESSAGE), false);
 
                         final int progressPercent = intent.getIntExtra(CustomBroadcastReceiver.PROGRESS_PERCENT, 0);
 

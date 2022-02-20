@@ -3,136 +3,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ericbt.musicplayer.activities.play_activity.PlayActivity">
-    <LinearLayout
+
+    <ListView
+        android:id="@+id/trackListView"
+        style="@style/List"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <ListView
-            android:id="@+id/trackListView"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:enabled="true"
+        android:fastScrollEnabled="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/currentAlbum"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/currentTrackName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/currentTrackArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:enabled="true"
-            android:fastScrollEnabled="true"
-            android:choiceMode="singleChoice"
-            style="@style/List"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
+
             <TextView
-                android:id="@+id/currentAlbum"
-                android:layout_width="match_parent"
+                android:id="@+id/currentTrackCurrentPosition"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                />
-            <TextView
-                android:id="@+id/currentTrackName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                />
-            <TextView
-                android:id="@+id/currentTrackArtist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                >
-                <TextView
-                    android:id="@+id/currentTrackCurrentPosition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp"
-                    />
-                <SeekBar
-                    android:id="@+id/currentTrackSeekBar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_gravity="center_vertical"
-                    />
-                <TextView
-                    android:id="@+id/currentTrackDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            >
+                android:layout_marginRight="10dp"
+                android:textSize="16sp" />
 
-            <ImageButton
-                android:id="@+id/play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/play"
-                android:contentDescription="play"
-                />
-
-            <ImageButton
-                android:id="@+id/pause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/pause"
-                android:contentDescription="pause"
-                />
-
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/next"
-                android:contentDescription="play next track"
-                />
-
-            <ImageButton
-                android:id="@+id/previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/previous"
-                android:contentDescription="play previous track"
-                />
-
-            <View
+            <SeekBar
+                android:id="@+id/currentTrackSeekBar"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1" />
 
+            <TextView
+                android:id="@+id/currentTrackDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:textSize="16sp" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="play"
+            android:src="@drawable/play" />
+
+        <ImageButton
+            android:id="@+id/pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="pause"
+            android:src="@drawable/pause" />
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="play next track"
+            android:src="@drawable/next" />
+
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="play previous track"
+            android:src="@drawable/previous" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 </LinearLayout>

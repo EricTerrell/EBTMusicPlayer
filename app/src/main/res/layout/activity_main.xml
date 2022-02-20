@@ -3,113 +3,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ericbt.musicplayer.activities.MainActivity">
-    
-    <LinearLayout
+
+    <TabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
 
-        <TabHost android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tabHost"
+        >
 
-            >
-            <TabWidget
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <LinearLayout
+                android:id="@+id/tab1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@android:id/tabs"
-                />
-            <FrameLayout
+                android:orientation="vertical"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab2"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@android:id/tabcontent"
-                >
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tab1"
-                    android:orientation="vertical"
-                    >
-                </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tab2"
-                    android:orientation="vertical"
-                    >
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/tab3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"></LinearLayout>
+        </FrameLayout>
+    </TabHost>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/tab3"
-                    android:orientation="vertical"
-                    >
-                </LinearLayout>
-            </FrameLayout>
-        </TabHost>
+    <ListView
+        android:id="@+id/mediaListView"
+        style="@style/List"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:enabled="true"
+        android:fastScrollEnabled="true" />
 
-        <ListView
-            android:id="@+id/mediaListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:fastScrollEnabled="true"
-            style="@style/List"
-            />
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Scan for Music Files"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scan"
-            android:text="Scan for Music Files"
-            android:visibility="gone"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/play"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_weight="1"
+            android:text="Play" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Play"
-                android:id="@+id/play"
-                />
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Clear" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/clear"
-                android:text="Clear"
-                />
+        <Button
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Search"
-                android:id="@+id/search"
-                />
+        <Button
+            android:id="@+id/filter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filter">
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Filter"
-                android:id="@+id/filter"
-                >
+        </Button>
 
-            </Button>
-
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

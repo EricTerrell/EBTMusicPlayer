@@ -3,55 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.ericbt.musicplayer.activities.FolderPickerActivity"
     android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp">
+    android:layout_marginRight="5dp"
+    android:orientation="vertical"
+    tools:context="com.ericbt.musicplayer.activities.FolderPickerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="Current Folder:" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="Current Folder:"
-                android:layout_marginBottom="10dp"
-                />
-
-            <LinearLayout
+                android:id="@+id/currentFolder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:lines="6"
+                android:text="/" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/currentFolder"
-                    android:layout_weight="1"
-                    android:lines="6"
-                    android:text="/"
-                    android:layout_gravity="bottom"
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select"
-                    android:id="@+id/selectCurrentFolder"
-                    />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/selectCurrentFolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select" />
 
         </LinearLayout>
 
@@ -60,33 +47,30 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sub Folders:"
         android:layout_marginBottom="5dp"
-        />
+        android:text="Sub Folders:" />
 
     <ListView
+        android:id="@+id/folderListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/folderListView"
         android:layout_marginBottom="5dp"
-        >
+        android:layout_weight="1">
 
     </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/up"
+            android:layout_marginBottom="5dp"
             android:enabled="false"
             android:text="Up"
-            android:layout_marginBottom="5dp"
 
             />
 

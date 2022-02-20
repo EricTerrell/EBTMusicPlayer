@@ -1,61 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan for media in the following folders:" />
+
+    <ListView
+        android:id="@+id/scanFolders"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+
+    </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/pickFolder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan for media in the following folders:"
-            />
+            android:text="Add Folder" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/scanFolders"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
 
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/removeAll"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            >
+            android:text="Remove All Folders" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/pickFolder"
-                android:text="Add Folder"
-                />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                ></View>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/removeAll"
-                android:text="Remove All Folders"
-                />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

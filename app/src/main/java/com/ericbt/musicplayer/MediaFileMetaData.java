@@ -21,6 +21,7 @@
 package com.ericbt.musicplayer;
 
 import android.media.MediaMetadataRetriever;
+import android.util.Log;
 
 import java.io.File;
 
@@ -209,7 +210,10 @@ public class MediaFileMetaData {
             return mediaFileMetaData;
         }
         finally {
-            mediaMetadataRetriever.release();
+            try {
+                mediaMetadataRetriever.release();
+            } catch (Exception ex) {
+                Log.e(StringLiterals.LOG_TAG, ex.getMessage());            }
         }
     }
 

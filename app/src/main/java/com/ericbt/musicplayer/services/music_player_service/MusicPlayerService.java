@@ -599,4 +599,19 @@ public class MusicPlayerService extends BaseService {
         return timer;
     }
 
+    public void pauseForInterruption() {
+        logger.log("MusicPlayerService.pauseForInterruption");
+
+        synchronized (threadUnsafeVariables) {
+            threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().pause();
+        }
+    }
+
+    public void resumeAfterInterruption() {
+        logger.log("MusicPlayerService.resumeAfterInterruption");
+
+        synchronized (threadUnsafeVariables) {
+            threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().start();
+        }
+    }
 }

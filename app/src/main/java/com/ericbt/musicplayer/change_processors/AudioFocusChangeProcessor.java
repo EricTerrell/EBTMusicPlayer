@@ -22,6 +22,7 @@ package com.ericbt.musicplayer.change_processors;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Build;
 
 import com.ericbt.musicplayer.PlaybackController;
 import com.ericbt.musicplayer.utils.Logger;
@@ -55,12 +56,19 @@ public class AudioFocusChangeProcessor {
         return focusChange -> {
             logger.log(String.format(Locale.US, "onAudioFocusChange focusChange = %d isPaused = %b", focusChange, playbackController.isProgramaticallyPaused()));
 
-            switch(focusChange) {
+            switch (focusChange) {
                 case AUDIOFOCUS_LOSS:
                 case AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 case AUDIOFOCUS_LOSS_TRANSIENT: {
                     if (!playbackController.isProgramaticallyPaused()) {
-                        boolean isPaused = playbackController.pause();
+                        boolean isPaused;
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                            isPaused = playbackController.pause();
+                        } else {
+                            isPaused = playbackController.pauseForInterruption();
+                        }
+
                         playbackController.setIsProgramaticallyPaused(isPaused);
                     }
                 }
@@ -68,7 +76,11 @@ public class AudioFocusChangeProcessor {
 
                 case AUDIOFOCUS_GAIN: {
                     if (playbackController.isProgramaticallyPaused()) {
-                        playbackController.play(false);
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                            playbackController.play(false);
+                        } else {
+                            playbackController.resumeAfterInterruption();
+                        }
                     }
                 }
                 break;

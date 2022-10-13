@@ -437,6 +437,38 @@ public class PlayActivity extends Activity implements PlaybackController {
         }
     }
 
+    @Override
+    public boolean pauseForInterruption() {
+        logger.log("PlayActivity.pauseForInterruption");
+
+        synchronized (threadUnsafeVariables) {
+            final MusicPlayerService musicPlayerService = threadUnsafeVariables.getMusicPlayerService();
+
+            if (musicPlayerService != null) {
+                boolean isPaused = musicPlayerService.isPlaying();
+
+                musicPlayerService.pauseForInterruption();
+
+                return isPaused;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public void resumeAfterInterruption() {
+        logger.log("PlayActivity.resumeAfterInterruption");
+
+        synchronized (threadUnsafeVariables) {
+            final MusicPlayerService musicPlayerService = threadUnsafeVariables.getMusicPlayerService();
+
+            if (musicPlayerService != null) {
+                musicPlayerService.resumeAfterInterruption();
+            }
+        }
+    }
+
     private boolean playOrPause() {
         logger.log("PlayActivity.playOrPause");
 

@@ -25,6 +25,10 @@ public interface PlaybackController {
 
     boolean pause();
 
+    boolean pauseForInterruption();
+
+    void resumeAfterInterruption();
+
     boolean isPlaybackFinished();
 
     boolean isProgramaticallyPaused();

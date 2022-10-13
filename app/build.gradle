@@ -5,9 +5,9 @@ android {
     defaultConfig {
         applicationId "com.ericbt.musicplayer"
         minSdkVersion 23
-        targetSdkVersion 31
-        versionCode 89
-        versionName "1.89"
+        targetSdkVersion 32
+        versionCode 91
+        versionName "1.91"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {

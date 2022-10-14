@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,6 +61,7 @@ import com.ericbt.musicplayer.utils.DebugUtils;
 import com.ericbt.musicplayer.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.view.View.GONE;
@@ -95,10 +97,20 @@ public class MainActivity extends Activity {
 
     private int numberOfRejections = 0;
 
-    final String[] permissions = new String[] {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE
-    };
+    private String[] getPermissions() {
+        final List<String> permissions = new ArrayList<>();
+
+        permissions.add(Manifest.permission.READ_PHONE_STATE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            permissions.add(Manifest.permission.READ_MEDIA_AUDIO);
+        } else {
+            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+
+        return permissions.toArray(new String[0]);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -577,7 +589,7 @@ public class MainActivity extends Activity {
     }
 
     private boolean haveAllPermissions() {
-        for (final String permission : permissions) {
+        for (final String permission : getPermissions()) {
             if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
@@ -590,7 +602,7 @@ public class MainActivity extends Activity {
         Log.i(StringLiterals.LOG_TAG, "MainActivity.requestPermissions");
 
         if (!haveAllPermissions()) {
-            requestPermissions(permissions, REQUEST_PERMISSIONS_CODE);
+            requestPermissions(getPermissions(), REQUEST_PERMISSIONS_CODE);
         }
     }
 

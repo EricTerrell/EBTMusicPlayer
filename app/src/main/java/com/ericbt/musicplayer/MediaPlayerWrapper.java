@@ -32,12 +32,14 @@ public class MediaPlayerWrapper {
     private final Logger logger;
 
     public MediaPlayerWrapper(Context context, MediaPlayer mediaPlayer) {
+        mediaPlayer.seekTo(0);
         this.mediaPlayer = mediaPlayer;
         
         this.logger = new Logger(context);
     }
 
     public void setNextMediaPlayer(MediaPlayer nextMediaPlayer) {
+        mediaPlayer.seekTo(0);
         this.nextMediaPlayer = nextMediaPlayer;
 
         mediaPlayer.setNextMediaPlayer(nextMediaPlayer);

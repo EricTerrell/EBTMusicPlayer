@@ -302,22 +302,47 @@ public class PlayActivity extends Activity implements PlaybackController {
 
     @Override
     public void onDestroy() {
-        logger.log("PlayActivity.onDestroy");
+        logger.log("PlayActivity.onDestroy begin");
 
+        logger.log("super.onDestroy() begin");
         super.onDestroy();
+        logger.log("super.onDestroy() end");
 
-        unregisterReceiver(customBroadcastReceiver);
-        unregisterReceiver(connectDisconnectBroadcastReceiver);
+        try {
+            logger.log("unregisterReceiver(customBroadcastReceiver)");
+            unregisterReceiver(customBroadcastReceiver);
+        } catch (Exception ex) {
+            ExceptionLogger.logException(ex, this);
+        }
 
-        telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        try {
+            logger.log("unregisterReceiver(connectDisconnectBroadcastReceiver)");
+            unregisterReceiver(connectDisconnectBroadcastReceiver);
+        } catch (Exception ex) {
+            ExceptionLogger.logException(ex, this);
+        }
 
-        audioManager.abandonAudioFocus(audioFocusChangeProcessor.getOnAudioFocusChangeListener());
+        try {
+            logger.log("telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE)");
+            telephonyManager.listen(customPhoneStateListener, PhoneStateListener.LISTEN_NONE);
+        } catch (Exception ex) {
+            ExceptionLogger.logException(ex, this);
+        }
+
+        try {
+            logger.log("audioManager.abandonAudioFocus(audioFocusChangeProcessor.getOnAudioFocusChangeListener())");
+            audioManager.abandonAudioFocus(audioFocusChangeProcessor.getOnAudioFocusChangeListener());
+        } catch (Exception ex) {
+            ExceptionLogger.logException(ex, this);
+        }
 
         try {
             unbindService(serviceConnection);
         } catch (Exception ex) {
             ExceptionLogger.logException(ex, this);
         }
+
+        logger.log("PlayActivity.onDestroy end");
     }
 
     private void resumePlaying() {
@@ -894,11 +919,11 @@ public class PlayActivity extends Activity implements PlaybackController {
                             logger.log(String.format("onMediaButtonEvent action: %s", mediaButtonIntent.getAction()));
 
                             KeyEvent event = mediaButtonIntent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                            logger.log(String.format("event action: %d", event.getAction()));
+                            logger.log(String.format(LocaleUtils.getDefaultLocale(), "event action: %d", event.getAction()));
 
                             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                                 final int keyCode = event.getKeyCode();
-                                logger.log(String.format("keyCode: %d", keyCode));
+                                logger.log(String.format(LocaleUtils.getDefaultLocale(), "keyCode: %d", keyCode));
 
                                 switch(keyCode) {
                                     case KeyEvent.KEYCODE_MEDIA_PAUSE:

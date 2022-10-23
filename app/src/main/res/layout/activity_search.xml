@@ -19,6 +19,7 @@
             android:layout_weight="1"
             android:id="@+id/searchText"
             android:hint="Enter Search Text"
+            android:inputType="text"
             />
 
         <Button

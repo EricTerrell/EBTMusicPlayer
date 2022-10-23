@@ -233,6 +233,8 @@ public class MusicPlayerService extends BaseService {
 
     @Override
     public void onDestroy() {
+        logger.log("MusicPlayerService.onDestroy");
+
         super.onDestroy();
 
         releaseMediaPlayer();
@@ -273,8 +275,9 @@ public class MusicPlayerService extends BaseService {
                     try {
                         updatePlayNotification(mediaPlaybackData.getMediaList().get(threadUnsafeVariables.getPosition().getListIndex()));
 
-                        logger.log("Releasing MediaPlayer");
+                        logger.log("MusicPlayerService.setOnCompletionListener: Releasing MediaPlayer");
                         mediaPlayer1.release();
+                        logger.log("MusicPlayerService.setOnCompletionListener: Released MediaPlayer");
 
                         setupNextTrack();
 
@@ -347,6 +350,8 @@ public class MusicPlayerService extends BaseService {
     }
 
     private void sendLastTrackCompletedMessage() {
+        logger.log("MusicPlayerService.sendLastTrackCompletedMessage");
+
         final Intent intent = new Intent();
         intent.setAction(CustomBroadcastReceiver.LAST_TRACK_PLAYED);
 
@@ -357,6 +362,7 @@ public class MusicPlayerService extends BaseService {
                     // Broadcast was not aborted by PlayActivity. Need to destroy the service
                     // because PlayActivity didn't.
 
+                    logger.log("MusicPlayerService.sendLastTrackCompletedMessage: stopService");
                     stopService(null, null);
                 }
             }
@@ -397,6 +403,7 @@ public class MusicPlayerService extends BaseService {
 
             try {
                 if (threadUnsafeVariables.getMediaPlayerWrapper() != null) {
+                    logger.log("MusicPlayerService.releaseMediaPlayer: release");
                     threadUnsafeVariables.getMediaPlayerWrapper().release();
                 }
             } catch (Exception ex) {

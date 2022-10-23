@@ -49,10 +49,10 @@ public class RecentlyPlayedManager {
     public List<RecentlyPlayedData> getRecentlyPlayedData(String action, int threshold) {
         final List<RecentlyPlayedData> results = new ArrayList<>(threshold);
 
-        try (SQLiteDatabase db = DBUtils.getDatabase(context)) {
+        try (final SQLiteDatabase db = DBUtils.getDatabase(context)) {
             final String whereClause = action != null ? "WHERE action = ? " : "";
 
-            String query =
+            final String query =
                     "SELECT id, album, currentTrackName, ids, action, trackOrdinalPosition, positionInTrack " +
                             "FROM RecentlyPlayed " +
                             whereClause +
@@ -63,7 +63,7 @@ public class RecentlyPlayedManager {
 
             final long startTime = new Date().getTime();
 
-            try (Cursor cursor = db.rawQuery(query, selectionArgs)) {
+            try (final Cursor cursor = db.rawQuery(query, selectionArgs)) {
                 logger.log(String.format("retrieve query: %s", query));
 
                 while (cursor.moveToNext()) {
@@ -115,7 +115,7 @@ public class RecentlyPlayedManager {
 
             final long startTime = new Date().getTime();
 
-            try (SQLiteDatabase db = DBUtils.getDatabase(context)) {
+            try (final SQLiteDatabase db = DBUtils.getDatabase(context)) {
                 if (recentlyPlayedData.size() == 1) {
                     if (album.equals(recentlyPlayedData.get(0).getAlbum())) {
                         final String[] whereValues = new String[]{String.valueOf(recentlyPlayedData.get(0).getId())};

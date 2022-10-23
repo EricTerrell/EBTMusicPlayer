@@ -39,7 +39,7 @@ public class MediaPlayerWrapper {
     }
 
     public void setNextMediaPlayer(MediaPlayer nextMediaPlayer) {
-        mediaPlayer.seekTo(0);
+        nextMediaPlayer.seekTo(0);
         this.nextMediaPlayer = nextMediaPlayer;
 
         mediaPlayer.setNextMediaPlayer(nextMediaPlayer);

@@ -306,7 +306,9 @@ public class MusicPlayerService extends BaseService {
                 final MediaPlayer nextTrackPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(mediaFilePath));
 
                 if (nextTrackPlayer != null) {
-                    logger.log(String.format(LocaleUtils.getDefaultLocale(), "Creating MediaPlayer duration %d %s", nextTrackPlayer.getDuration(), mediaFilePath));
+                    logger.log(String.format(LocaleUtils.getDefaultLocale(), "Created MediaPlayer duration %d %s", nextTrackPlayer.getDuration(), mediaFilePath));
+
+                    nextTrackPlayer.seekTo(0);  // prevent incorrect results from calling MediaPlayer.getCurrentPosition() ???
 
                     setCompletionListener(nextTrackPlayer);
                     setOnErrorListener(nextTrackPlayer);

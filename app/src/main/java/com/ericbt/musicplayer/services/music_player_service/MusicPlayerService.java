@@ -612,7 +612,9 @@ public class MusicPlayerService extends BaseService {
         logger.log("MusicPlayerService.pauseForInterruption");
 
         synchronized (threadUnsafeVariables) {
-            threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().pause();
+            if (threadUnsafeVariables.getMediaPlayerWrapper() != null) {
+                threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().pause();
+            }
         }
     }
 
@@ -620,7 +622,9 @@ public class MusicPlayerService extends BaseService {
         logger.log("MusicPlayerService.resumeAfterInterruption");
 
         synchronized (threadUnsafeVariables) {
-            threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().start();
+            if (threadUnsafeVariables.getMediaPlayerWrapper() != null) {
+                threadUnsafeVariables.getMediaPlayerWrapper().getMediaPlayer().start();
+            }
         }
     }
 }
